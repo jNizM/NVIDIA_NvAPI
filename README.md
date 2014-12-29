@@ -57,7 +57,7 @@
 ![Class_NvAPI_GUI_Classic](Class_NvAPI_GUI_Classic.png)
 
 ### Set Digital Vibrance (DVC) per Display
-|[Class_NvAPI_GUI_SetDVC](Class_NvAPI_GUI_SetDVC.png)
+![Class_NvAPI_GUI_SetDVC](Class_NvAPI_GUI_SetDVC.png)
 
 
 ## Info
