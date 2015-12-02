@@ -1,7 +1,19 @@
 # AutoHotkey & NVIDIA (NvAPI) by jNizM
 
 ## Converted NvAPI-Functions
+* DisableHWCursor()
 * DISP_GetGDIPrimaryDisplayId()
+* DRS_CreateSession()
+* DRS_DestroySession()
+* DRS_GetCurrentGlobalProfile()
+* DRS_GetNumProfiles()
+* DRS_LoadSettings()
+* DRS_LoadSettingsFromFile()
+* DRS_RestoreAllDefaults()
+* DRS_SaveSettings()
+* DRS_SaveSettingsToFile()
+* EnableHWCursor()
+* EnumLogicalGPUs()
 * EnumNvidiaDisplayHandle()
 * EnumNvidiaUnAttachedDisplayHandle()
 * EnumPhysicalGPUs()
@@ -10,8 +22,12 @@
 * GetAssociatedNvidiaDisplayName()
 * GetDisplayDriverMemoryInfo()
 * GetDisplayDriverVersion()
+* GetDisplayPortInfo()
 * GetDVCInfo()
 * GetDVCInfoEx()
+* GetErrorMessage()
+* GetHDMISupportInfo()
+* GetHUEInfo()
 * GetInterfaceVersionString()
 * GetUnAttachedAssociatedDisplayName()
 * GetVBlankCounter()
@@ -29,8 +45,10 @@
 * GPU_GetFullName()
 * GPU_GetGpuCoreCount()
 * GPU_GetGPUType()
+* GPU_GetHDCPSupportStatus()
 * GPU_GetIRQ()
 * GPU_GetMemoryInfo()
+* GPU_GetOutputType()
 * GPU_GetPerfDecreaseInfo()
 * GPU_GetPhysicalFrameBufferSize()
 * GPU_GetSystemType()
@@ -41,13 +59,20 @@
 * GPU_GetVbiosRevision()
 * GPU_GetVbiosVersionString()
 * GPU_GetVirtualFrameBufferSize()
+* GPU_SetCoolerLevels()
 * SetDVCLevel()
 * SetDVCLevelEx()
+* SetHUEAngle()
 * Stereo_IsEnabled()
 * Stereo_IsWindowedModeSupported()
 * SYS_GetChipSetInfo()
 * SYS_GetDriverAndBranchVersion()
 * Unload()
+* VIO_EnumDevices()
+* VIO_GetCapabilities()
+* VIO_IsRunning()
+* VIO_Start()
+* VIO_Stop()
 
 ## Examples:
 ### All functions and returns in a ListView
@@ -65,7 +90,7 @@
 
 
 ## Contributing
-* special thanks to just me
+* special thanks to AHK Member "just me"
 * thanks to AutoHotkey Community
 
 

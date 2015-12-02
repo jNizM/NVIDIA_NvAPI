@@ -1,21 +1,21 @@
-﻿///////////////////////////////////////////////////////////////////////////////
+﻿/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // NVAPI ID'S
 //
-// Release 343
-// Date: Sep 30, 2014 
+// Release 352
+// Date: Jun 02, 2015
 //
-///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 _NvAPI_CreateDisplayFromUnAttachedDisplay                   0x63F9799E
-_NvAPI_D3D11_AliasMSAATexture2DAsNonMSAA                    0xF1C54FC9
+_NvAPI_D3D11_AliasMSAATexture2DAsNonMSAA                    0xF1C54FC9        // new with r343
 _NvAPI_D3D11_BeginUAVOverlap                                0x65B93CA8
+_NvAPI_D3D11_BeginUAVOverlapEx                              0xBA08208A        // new with r352
 _NvAPI_D3D11_CreateDevice                                   0x6A16D3A0
 _NvAPI_D3D11_CreateDeviceAndSwapChain                       0xBB939EE5
-_NvAPI_D3D11_CreateRasterizerState                          0xDB8D28AF
+_NvAPI_D3D11_CreateRasterizerState                          0xDB8D28AF        // new with r343
 _NvAPI_D3D11_EndUAVOverlap                                  0x2216A357
 _NvAPI_D3D11_IsNvShaderExtnOpCodeSupported                  0x5F68DA40
-_NvAPI_D3D11_RSSetViewports                                 0xB5DB2762
 _NvAPI_D3D11_SetDepthBoundsTest                             0x7AAF7A04
 _NvAPI_D3D11_SetNvShaderExtnSlot                            0x8E90BB9F
 _NvAPI_D3D1x_CreateSwapChain                                0x1BC21B66
@@ -32,6 +32,8 @@ _NvAPI_D3D_BeginResourceRendering                           0x91123D6A
 _NvAPI_D3D_EndResourceRendering                             0x37E7191C
 _NvAPI_D3D_GetCurrentSLIState                               0x4B708B54
 _NvAPI_D3D_GetObjectHandleForResource                       0xFCEAC864
+_NvAPI_D3D_IsGSyncActive                                    0xE942B0FF        // new with r352
+_NvAPI_D3D_IsGSyncCapable                                   0x9C1EED78        // new with r352
 _NvAPI_D3D_SetFPSIndicatorState                             0xA776E8DB
 _NvAPI_D3D_SetResourceHint                                  0x6C0ED98C
 _NvAPI_DisableHWCursor                                      0xAB163097
@@ -145,6 +147,7 @@ _NvAPI_GPU_GetPerfDecreaseInfo                              0x7F7F4600
 _NvAPI_GPU_GetPhysicalFrameBufferSize                       0x46FBEB03
 _NvAPI_GPU_GetPstates20                                     0x6FF81213
 _NvAPI_GPU_GetPstatesInfoEx                                 0x843C0256
+_NvAPI_GPU_GetScanoutCompositionParameter                   0x58FE51E6        // new with r352
 _NvAPI_GPU_GetScanoutConfiguration                          0x6A9F5B63
 _NvAPI_GPU_GetScanoutConfigurationEx                        0xE2E1E6F0
 _NvAPI_GPU_GetScanoutIntensityState                         0xE81CE836
@@ -161,6 +164,7 @@ _NvAPI_GPU_ResetECCErrorInfo                                0xC02EEC20
 _NvAPI_GPU_SetECCConfiguration                              0x1CF639D9
 _NvAPI_GPU_SetEDID                                          0xE83D6456
 _NvAPI_GPU_SetIllumination                                  0x0254A187
+_NvAPI_GPU_SetScanoutCompositionParameter                   0xF898247D        // new with r352
 _NvAPI_GPU_SetScanoutIntensity                              0xA57457A4
 _NvAPI_GPU_SetScanoutWarping                                0xB34BAB4F
 _NvAPI_GPU_ValidateOutputCombination                        0x34C9C2D4
@@ -268,11 +272,11 @@ _NvAPI_VIO_SyncFormatDetect                                 0x118D48A3
 
 
 
-///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // OLD NVAPI ID'S
 //
-///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 _NvAPI_3D_GetProperty                                       0x8061A4B1
 _NvAPI_3D_GetPropertyRange                                  0xB85DE27C
@@ -294,6 +298,7 @@ _NvAPI_D3D10_SetDepthBoundsTest                             0x4EADF5D2
 _NvAPI_D3D10_SetPrimaryFlipChainCallbacks                   0x73EB9329
 _NvAPI_D3D11_BeginShareResource                             0x0121BDC6
 _NvAPI_D3D11_EndShareResource                               0x8FFB8E26
+_NvAPI_D3D11_RSSetViewports                                 0xB5DB2762        // Removed after R343
 _NvAPI_D3D1x_BindSwapBarrier                                0x9DE8C729
 _NvAPI_D3D1x_IFR_SetUpTargetBufferToSys                     0x473F7828
 _NvAPI_D3D1x_IFR_TransferRenderTarget                       0x9FBAE4EB
