@@ -96,3 +96,7 @@
 
 ## Copyright and License
 [Unlicense](LICENSE) & NVIDIA NVAPI SDK LICENSE
+
+
+## Donations
+[Donations are appreciated if I could help you](https://www.paypal.me/smithz)

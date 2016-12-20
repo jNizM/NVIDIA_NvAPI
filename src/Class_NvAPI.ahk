@@ -17,7 +17,7 @@
     {
         if !(NvAPI.hmod := DllCall("LoadLibrary", "Str", NvAPI.DllFile, "UPtr"))
         {
-            MsgBox, 16, % A_ThisFunc, % "LoadLibrary Error: " A_LastEror
+            MsgBox, 16, % A_ThisFunc, % "LoadLibrary Error: " A_LastErorr
             ExitApp
         }
         if (NvStatus := DllCall(DllCall(NvAPI.DllFile "\nvapi_QueryInterface", "UInt", 0x0150E828, "CDECL UPtr"), "CDECL") != 0)
