@@ -132,4 +132,7 @@ typedef enum _NvAPI_Status
     NVAPI_HDCP_ENCRYPTION_FAILED                       = -205,    //!< HDCP Encryption Failed for the device. Would be applicable when the device is HDCP Capable.
     NVAPI_PCLK_LIMITATION_FAILED                       = -206,    //!< Provided mode is over sink device pclk limitation.
     NVAPI_NO_CONNECTOR_FOUND                           = -207,    //!< No connector on GPU found.
+    NVAPI_HDCP_DISABLED                                = -208,    //!< When a non-HDCP capable HMD is connected, we would inform user by this code.
+    NVAPI_API_IN_USE                                   = -209,    //!< Atleast an API is still being called
+    NVAPI_NVIDIA_DISPLAY_NOT_FOUND                     = -210,    //!< No display found on Nvidia GPU(s).
 } NvAPI_Status;
