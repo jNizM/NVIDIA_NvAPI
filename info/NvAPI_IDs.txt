@@ -2,8 +2,8 @@
 //
 // NVAPI ID'S
 //
-// Release 435
-// Date: Aug 22, 2019
+// Release 440
+// Date: Nov 15, 2019
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -71,6 +71,8 @@ _NvAPI_D3D12_ResolveSubresourceRegion                       0xC24A15BF
 _NvAPI_D3D12_ResourceAliasingBarrier                        0xB942BAB7
 _NvAPI_D3D12_SetDepthBoundsTestValues                       0xB9333FE9
 _NvAPI_D3D12_SetModifiedWMode                               0xE1FDABA7
+_NvAPI_D3D12_SetNvShaderExtnSlotSpace                       0xAC2DFEB5
+_NvAPI_D3D12_SetNvShaderExtnSlotSpaceLocalThread            0x43D867C0
 _NvAPI_D3D12_SetSinglePassStereoMode                        0x83556D87
 _NvAPI_D3D12_UpdateTileMappings                             0xC6017A7D
 _NvAPI_D3D12_UseDriverHeapPriorities                        0xF0D978A8
@@ -257,6 +259,7 @@ _NvAPI_GPU_GetVbiosRevision                                 0xACC3DA0A
 _NvAPI_GPU_GetVbiosVersionString                            0xA561FD7D
 _NvAPI_GPU_GetVirtualFrameBufferSize                        0x5A04B644
 _NvAPI_GPU_QueryIlluminationSupport                         0xA629DA31
+_NvAPI_GPU_QueryWorkstationFeatureSupport                   0x80B1ABB9
 _NvAPI_GPU_ResetECCErrorInfo                                0xC02EEC20
 _NvAPI_GPU_SetECCConfiguration                              0x1CF639D9
 _NvAPI_GPU_SetEDID                                          0xE83D6456
