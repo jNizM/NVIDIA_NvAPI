@@ -2,8 +2,8 @@
 //
 // NVAPI ID'S
 //
-// Release 450
-// Date: Sep 24, 2020
+// Release 455
+// Date: Sep 29, 2020
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -128,6 +128,7 @@ _NvAPI_DisableHWCursor                                      0xAB163097
 _NvAPI_Disp_ColorControl                                    0x92F9D80D
 _NvAPI_DISP_DeleteCustomDisplay                             0x552E5B9B
 _NvAPI_DISP_EnumCustomDisplay                               0xA2072D59
+_NvAPI_DISP_GetAdaptiveSyncData                             0xB73D1EE9
 _NvAPI_DISP_GetAssociatedUnAttachedNvidiaDisplayHandle      0xA70503B2
 _NvAPI_DISP_GetDisplayConfig                                0x11ABCCF8
 _NvAPI_DISP_GetDisplayIdByDisplayName                       0xAE457190
@@ -140,6 +141,7 @@ _NvAPI_Disp_HdrColorControl                                 0x351DA224
 _NvAPI_Disp_InfoFrameControl                                0x6067AF3F
 _NvAPI_DISP_RevertCustomDisplayTrial                        0xCBBD40F0
 _NvAPI_DISP_SaveCustomDisplay                               0x49882876
+_NvAPI_DISP_SetAdaptiveSyncData                             0x3EEBBA1D
 _NvAPI_DISP_SetDisplayConfig                                0x5D8CF8DE
 _NvAPI_DISP_TryCustomDisplay                                0x1F7DB630
 _NvAPI_DRS_CreateApplication                                0x4347A9DE
