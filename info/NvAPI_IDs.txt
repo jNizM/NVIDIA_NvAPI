@@ -2,8 +2,8 @@
 //
 // NVAPI ID'S
 //
-// Release 455
-// Date: Sep 29, 2020
+// Release 460
+// Date: Mar 10, 2021
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -51,8 +51,10 @@ _NvAPI_D3D11_SetNvShaderExtnSlotLocalThread                 0x0E6482A0
 _NvAPI_D3D11_TiledResourceBarrier                           0xD6839099
 _NvAPI_D3D11_TiledTexture2DArrayGetDesc                     0xF1A2B9D5
 _NvAPI_D3D11_UpdateTileMappings                             0x9A06EA07
+_NvAPI_D3D12_CopyTextureRegion                              0x82B91B25
 _NvAPI_D3D12_CopyTileMappings                               0x47F78194
 _NvAPI_D3D12_CreateCommittedImplicitMSAATexture2D           0x24C6A07B
+_NvAPI_D3D12_CreateCommittedResource                        0x027E98AE
 _NvAPI_D3D12_CreateComputePipelineState                     0x2762DEAC
 _NvAPI_D3D12_CreateGraphicsPipelineState                    0x2FC28856
 _NvAPI_D3D12_CreateHeap                                     0x5CB397CF
@@ -60,6 +62,7 @@ _NvAPI_D3D12_CreateMetaCommand                              0xEB29634B
 _NvAPI_D3D12_CreateReservedResource                         0x2C85F101
 _NvAPI_D3D12_EnumerateMetaCommands                          0xCD9141D8
 _NvAPI_D3D12_ExecuteMetaCommand                             0xDE24FC3D
+_NvAPI_D3D12_GetCopyableFootprints                          0xF6305EB5
 _NvAPI_D3D12_InitializeMetaCommand                          0xA4125399
 _NvAPI_D3D12_IsNvShaderExtnOpCodeSupported                  0x3DFACEC8
 _NvAPI_D3D12_Mosaic_GetCompanionAllocations                 0xA46022C7
@@ -106,7 +109,9 @@ _NvAPI_D3D_ConfigureAnsel                                   0x341C6C7F
 _NvAPI_D3D_CreateLateLatchObject                            0x2DB27D09
 _NvAPI_D3D_EndResourceRendering                             0x37E7191C
 _NvAPI_D3D_GetCurrentSLIState                               0x4B708B54
+_NvAPI_D3D_GetLatency                                       0x1A587F9C
 _NvAPI_D3D_GetObjectHandleForResource                       0xFCEAC864
+_NvAPI_D3D_GetSleepStatus                                   0xAEF96CA1
 _NvAPI_D3D_ImplicitSLIControl                               0x2AEDE111
 _NvAPI_D3D_InitializeNvGazeHandler                          0x5B3B7479
 _NvAPI_D3D_InitializeSMPAssist                              0x42763D0C
@@ -120,10 +125,13 @@ _NvAPI_D3D_QuerySinglePassStereoSupport                     0x6F5F0A6D
 _NvAPI_D3D_QuerySMPAssistSupport                            0xC57921DE
 _NvAPI_D3D_RegisterDevice                                   0x8C02C4D0
 _NvAPI_D3D_SetFPSIndicatorState                             0xA776E8DB
+_NvAPI_D3D_SetLatencyMarker                                 0xD9984C05
 _NvAPI_D3D_SetModifiedWMode                                 0x06EA4BF4
 _NvAPI_D3D_SetMultiViewMode                                 0x8285C8DA
 _NvAPI_D3D_SetResourceHint                                  0x6C0ED98C
 _NvAPI_D3D_SetSinglePassStereoMode                          0xA39E6E6E
+_NvAPI_D3D_SetSleepMode                                     0xAC1CA9E0
+_NvAPI_D3D_Sleep                                            0x852CD1D2
 _NvAPI_DisableHWCursor                                      0xAB163097
 _NvAPI_Disp_ColorControl                                    0x92F9D80D
 _NvAPI_DISP_DeleteCustomDisplay                             0x552E5B9B
@@ -184,6 +192,8 @@ _NvAPI_EnumNvidiaDisplayHandle                              0x9ABDD40D
 _NvAPI_EnumNvidiaUnAttachedDisplayHandle                    0x20DE9260
 _NvAPI_EnumPhysicalGPUs                                     0xE5AC921F
 _NvAPI_EnumTCCPhysicalGPUs                                  0xD9930B07
+_NvAPI_Event_RegisterCallback                               0xE6DBEA69
+_NvAPI_Event_UnregisterCallback                             0xDE1F9B45
 _NvAPI_GetAssociatedDisplayOutputId                         0xD995937E
 _NvAPI_GetAssociatedNvidiaDisplayHandle                     0x35C29134
 _NvAPI_GetAssociatedNvidiaDisplayName                       0x22A78B05
