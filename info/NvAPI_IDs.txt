@@ -2,8 +2,8 @@
 //
 // NVAPI ID'S
 //
-// Release 440
-// Date: Nov 15, 2019
+// Release 450
+// Date: Sep 24, 2020
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -191,6 +191,7 @@ _NvAPI_GetDisplayPortInfo                                   0xC64FF367
 _NvAPI_GetErrorMessage                                      0x6C2D048C
 _NvAPI_GetHDMISupportInfo                                   0x6AE16EC3
 _NvAPI_GetInterfaceVersionString                            0x01053FA5
+_NvAPI_GetInterfaceVersionStringEx                          0x6C2D048C
 _NvAPI_GetLogicalGPUFromDisplay                             0xEE1370CF
 _NvAPI_GetLogicalGPUFromPhysicalGPU                         0xADD604D1
 _NvAPI_GetPhysicalGPUFromUnAttachedDisplay                  0x5018ED61
@@ -236,6 +237,7 @@ _NvAPI_GPU_GetGPUType                                       0xC33BAEB1
 _NvAPI_GPU_GetHDCPSupportStatus                             0xF089EEF5
 _NvAPI_GPU_GetIllumination                                  0x9A1B9365
 _NvAPI_GPU_GetIRQ                                           0xE4715417
+_NvAPI_GPU_GetLicensableFeatures                            0x3FC596AA
 _NvAPI_GPU_GetLogicalGpuInfo                                0x842B066E
 _NvAPI_GPU_GetMemoryInfo                                    0x07F9B368
 _NvAPI_GPU_GetOutputType                                    0x40A505E4
@@ -258,6 +260,7 @@ _NvAPI_GPU_GetVbiosOEMRevision                              0x2D43FB31
 _NvAPI_GPU_GetVbiosRevision                                 0xACC3DA0A
 _NvAPI_GPU_GetVbiosVersionString                            0xA561FD7D
 _NvAPI_GPU_GetVirtualFrameBufferSize                        0x5A04B644
+_NvAPI_GPU_GetVirtualizationInfo                            0x44E022A9
 _NvAPI_GPU_QueryIlluminationSupport                         0xA629DA31
 _NvAPI_GPU_QueryWorkstationFeatureSupport                   0x80B1ABB9
 _NvAPI_GPU_ResetECCErrorInfo                                0xC02EEC20
