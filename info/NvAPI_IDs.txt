@@ -2,15 +2,18 @@
 //
 // NVAPI ID'S
 //
-// Release 375
-// Date: Nov 10, 2016
+// Release 430
+// Date: Apr 4, 2019
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 _NvAPI_CreateDisplayFromUnAttachedDisplay                   0x63F9799E
+_NvAPI_D3D10_SetDepthBoundsTest                             0x4EADF5D2
 _NvAPI_D3D11_AliasMSAATexture2DAsNonMSAA                    0xF1C54FC9
 _NvAPI_D3D11_BeginUAVOverlap                                0x65B93CA8
 _NvAPI_D3D11_BeginUAVOverlapEx                              0xBA08208A
+_NvAPI_D3D11_CheckFeatureSupport                            0x106A487E
+_NvAPI_D3D11_CopyTileMappings                               0xC09EE6BC
 _NvAPI_D3D11_CreateDevice                                   0x6A16D3A0
 _NvAPI_D3D11_CreateDeviceAndSwapChain                       0xBB939EE5
 _NvAPI_D3D11_CreateDomainShaderEx                           0xA0D7180D
@@ -18,27 +21,60 @@ _NvAPI_D3D11_CreateFastGeometryShader                       0x525D43BE
 _NvAPI_D3D11_CreateFastGeometryShaderExplicit               0x71AB7C9C
 _NvAPI_D3D11_CreateGeometryShaderEx_2                       0x99ED5C1C
 _NvAPI_D3D11_CreateHullShaderEx                             0xB53CAB00
+_NvAPI_D3D11_CreateImplicitMSAATexture2D                    0xB8F79632
+_NvAPI_D3D11_CreateMetaCommand                              0xF505FBA0
 _NvAPI_D3D11_CreateMultiGPUDevice                           0xBDB20007
+_NvAPI_D3D11_CreatePixelShaderEx_2                          0x4162822B
 _NvAPI_D3D11_CreateRasterizerState                          0xDB8D28AF
+_NvAPI_D3D11_CreateShadingRateResourceView                  0x99CA2DFF
+_NvAPI_D3D11_CreateTiledTexture2DArray                      0x7886981A
 _NvAPI_D3D11_CreateVertexShaderEx                           0x0BEAA0B2
+_NvAPI_D3D11_DecompressView                                 0x3A94E822
 _NvAPI_D3D11_EndUAVOverlap                                  0x2216A357
+_NvAPI_D3D11_EnumerateMetaCommands                          0xC7453BA8
+_NvAPI_D3D11_ExecuteMetaCommand                             0x82236C47
+_NvAPI_D3D11_InitializeMetaCommand                          0xAEC629E9
 _NvAPI_D3D11_IsNvShaderExtnOpCodeSupported                  0x5F68DA40
 _NvAPI_D3D11_MultiDrawIndexedInstancedIndirect              0x59E890F9
 _NvAPI_D3D11_MultiDrawInstancedIndirect                     0xD4E26BBF
 _NvAPI_D3D11_MultiGPU_GetCaps                               0xD2D25687
 _NvAPI_D3D11_MultiGPU_Init                                  0x017BE49E
+_NvAPI_D3D11_ResolveSubresourceRegion                       0xE6BFEDD6
+_NvAPI_D3D11_RSGetPixelShadingRateSampleOrder               0x092442A1
+_NvAPI_D3D11_RSSetExclusiveScissorRects                     0xAE4D73EF
+_NvAPI_D3D11_RSSetPixelShadingRateSampleOrder               0xA942373A
+_NvAPI_D3D11_RSSetShadingRateResourceView                   0x1B0C2F83
+_NvAPI_D3D11_RSSetViewportsPixelShadingRates                0x34F7938F
 _NvAPI_D3D11_SetDepthBoundsTest                             0x7AAF7A04
 _NvAPI_D3D11_SetNvShaderExtnSlot                            0x8E90BB9F
+_NvAPI_D3D11_SetNvShaderExtnSlotLocalThread                 0x0E6482A0
+_NvAPI_D3D11_TiledResourceBarrier                           0xD6839099
+_NvAPI_D3D11_TiledTexture2DArrayGetDesc                     0xF1A2B9D5
+_NvAPI_D3D11_UpdateTileMappings                             0x9A06EA07
+_NvAPI_D3D12_CopyTileMappings                               0x47F78194
 _NvAPI_D3D12_CreateComputePipelineState                     0x2762DEAC
 _NvAPI_D3D12_CreateGraphicsPipelineState                    0x2FC28856
+_NvAPI_D3D12_CreateHeap                                     0x5CB397CF
+_NvAPI_D3D12_CreateMetaCommand                              0xEB29634B
+_NvAPI_D3D12_CreateReservedResource                         0x2C85F101
+_NvAPI_D3D12_EnumerateMetaCommands                          0xCD9141D8
+_NvAPI_D3D12_ExecuteMetaCommand                             0xDE24FC3D
+_NvAPI_D3D12_InitializeMetaCommand                          0xA4125399
 _NvAPI_D3D12_IsNvShaderExtnOpCodeSupported                  0x3DFACEC8
+_NvAPI_D3D12_Mosaic_GetCompanionAllocations                 0xA46022C7
+_NvAPI_D3D12_Mosaic_GetViewportAndGpuPartitions             0xB092B818
 _NvAPI_D3D12_QueryModifiedWSupport                          0x51235248
 _NvAPI_D3D12_QuerySinglePassStereoSupport                   0x3B03791B
+_NvAPI_D3D12_ReservedResourceGetDesc                        0x9AA2AABB
+_NvAPI_D3D12_ResourceAliasingBarrier                        0xB942BAB7
 _NvAPI_D3D12_SetDepthBoundsTestValues                       0xB9333FE9
 _NvAPI_D3D12_SetModifiedWMode                               0xE1FDABA7
 _NvAPI_D3D12_SetSinglePassStereoMode                        0x83556D87
+_NvAPI_D3D12_UpdateTileMappings                             0xC6017A7D
+_NvAPI_D3D12_UseDriverHeapPriorities                        0xF0D978A8
 _NvAPI_D3D1x_CreateSwapChain                                0x1BC21B66
 _NvAPI_D3D1x_DisableShaderDiskCache                         0xD0CBCA7D
+_NvAPI_D3D1x_GetGraphicsCapabilities                        0x52B1499A
 _NvAPI_D3D9_AliasSurfaceAsTexture                           0xE5CEAE41
 _NvAPI_D3D9_ClearRT                                         0x332D3942
 _NvAPI_D3D9_CreateSwapChain                                 0x1A131E09
@@ -49,17 +85,25 @@ _NvAPI_D3D9_UnregisterResource                              0xBB2B17AA
 _NvAPI_D3D9_VideoSetStereoInfo                              0xB852F4DB
 _NvAPI_D3D_BeginResourceRendering                           0x91123D6A
 _NvAPI_D3D_ConfigureAnsel                                   0x341C6C7F
+_NvAPI_D3D_CreateLateLatchObject                            0x2DB27D09
 _NvAPI_D3D_EndResourceRendering                             0x37E7191C
 _NvAPI_D3D_GetCurrentSLIState                               0x4B708B54
 _NvAPI_D3D_GetObjectHandleForResource                       0xFCEAC864
 _NvAPI_D3D_ImplicitSLIControl                               0x2AEDE111
+_NvAPI_D3D_InitializeNvGazeHandler                          0x5B3B7479
+_NvAPI_D3D_InitializeSMPAssist                              0x42763D0C
+_NvAPI_D3D_InitializeVRSHelper                              0x4780D70B
 _NvAPI_D3D_IsGSyncActive                                    0xE942B0FF
 _NvAPI_D3D_IsGSyncCapable                                   0x9C1EED78
+_NvAPI_D3D_QueryLateLatchSupport                            0x8CECA0EC
 _NvAPI_D3D_QueryModifiedWSupport                            0xCBF9F4F5
+_NvAPI_D3D_QueryMultiViewSupport                            0xB6E0A41C
 _NvAPI_D3D_QuerySinglePassStereoSupport                     0x6F5F0A6D
+_NvAPI_D3D_QuerySMPAssistSupport                            0xC57921DE
 _NvAPI_D3D_RegisterDevice                                   0x8C02C4D0
 _NvAPI_D3D_SetFPSIndicatorState                             0xA776E8DB
 _NvAPI_D3D_SetModifiedWMode                                 0x06EA4BF4
+_NvAPI_D3D_SetMultiViewMode                                 0x8285C8DA
 _NvAPI_D3D_SetResourceHint                                  0x6C0ED98C
 _NvAPI_D3D_SetSinglePassStereoMode                          0xA39E6E6E
 _NvAPI_DisableHWCursor                                      0xAB163097
@@ -140,6 +184,12 @@ _NvAPI_GetUnAttachedAssociatedDisplayName                   0x4888D790
 _NvAPI_GetVBlankCounter                                     0x67B5DB55
 _NvAPI_GetView                                              0xD6B99D89
 _NvAPI_GetViewEx                                            0xDBBC0AF4
+_NvAPI_GPU_ClientIllumDevicesGetControl                     0x73C01D58
+_NvAPI_GPU_ClientIllumDevicesGetInfo                        0xD4100E58
+_NvAPI_GPU_ClientIllumDevicesSetControl                     0x57024C62
+_NvAPI_GPU_ClientIllumZonesGetControl                       0x3DBF5764
+_NvAPI_GPU_ClientIllumZonesGetInfo                          0x4B81241B
+_NvAPI_GPU_ClientIllumZonesSetControl                       0x197D065E
 _NvAPI_GPU_GetActiveOutputs                                 0xE3E89B6F
 _NvAPI_GPU_GetAGPAperture                                   0x6E042794
 _NvAPI_GPU_GetAllClockFrequencies                           0xDCB616C3
@@ -168,6 +218,7 @@ _NvAPI_GPU_GetGPUType                                       0xC33BAEB1
 _NvAPI_GPU_GetHDCPSupportStatus                             0xF089EEF5
 _NvAPI_GPU_GetIllumination                                  0x9A1B9365
 _NvAPI_GPU_GetIRQ                                           0xE4715417
+_NvAPI_GPU_GetLogicalGpuInfo                                0x842B066E
 _NvAPI_GPU_GetMemoryInfo                                    0x07F9B368
 _NvAPI_GPU_GetOutputType                                    0x40A505E4
 _NvAPI_GPU_GetPCIIdentifiers                                0x2DDFB66E
