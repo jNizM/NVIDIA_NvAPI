@@ -13,14 +13,14 @@ _NvAPI_D3D11_BeginUAVOverlap                                0x65B93CA8
 _NvAPI_D3D11_BeginUAVOverlapEx                              0xBA08208A
 _NvAPI_D3D11_CreateDevice                                   0x6A16D3A0
 _NvAPI_D3D11_CreateDeviceAndSwapChain                       0xBB939EE5
-_NvAPI_D3D11_CreateDomainShaderEx                           0xA0D7180D        // new with r375
+_NvAPI_D3D11_CreateDomainShaderEx                           0xA0D7180D
 _NvAPI_D3D11_CreateFastGeometryShader                       0x525D43BE
 _NvAPI_D3D11_CreateFastGeometryShaderExplicit               0x71AB7C9C
-_NvAPI_D3D11_CreateGeometryShaderEx_2                       0x99ED5C1C        // new with r375
-_NvAPI_D3D11_CreateHullShaderEx                             0xB53CAB00        // new with r375
+_NvAPI_D3D11_CreateGeometryShaderEx_2                       0x99ED5C1C
+_NvAPI_D3D11_CreateHullShaderEx                             0xB53CAB00
 _NvAPI_D3D11_CreateMultiGPUDevice                           0xBDB20007
 _NvAPI_D3D11_CreateRasterizerState                          0xDB8D28AF
-_NvAPI_D3D11_CreateRasterizerState                          0xDB8D28AF        // new with r375
+_NvAPI_D3D11_CreateVertexShaderEx                           0x0BEAA0B2
 _NvAPI_D3D11_EndUAVOverlap                                  0x2216A357
 _NvAPI_D3D11_IsNvShaderExtnOpCodeSupported                  0x5F68DA40
 _NvAPI_D3D11_MultiDrawIndexedInstancedIndirect              0x59E890F9
@@ -29,16 +29,15 @@ _NvAPI_D3D11_MultiGPU_GetCaps                               0xD2D25687
 _NvAPI_D3D11_MultiGPU_Init                                  0x017BE49E
 _NvAPI_D3D11_SetDepthBoundsTest                             0x7AAF7A04
 _NvAPI_D3D11_SetNvShaderExtnSlot                            0x8E90BB9F
-_NvAPI_D3D12_CreateComputePipelineState                     0x2762DEAC        // new with r375
+_NvAPI_D3D12_CreateComputePipelineState                     0x2762DEAC
 _NvAPI_D3D12_CreateGraphicsPipelineState                    0x2FC28856
-_NvAPI_D3D12_IsNvShaderExtnOpCodeSupported                  0x3DFACEC8        // new with r375
-_NvAPI_D3D12_QueryModifiedWSupport                          0x51235248        // new with r375
-_NvAPI_D3D12_QuerySinglePassStereoSupport                   0x3B03791B        // new with r375
+_NvAPI_D3D12_IsNvShaderExtnOpCodeSupported                  0x3DFACEC8
+_NvAPI_D3D12_QueryModifiedWSupport                          0x51235248
+_NvAPI_D3D12_QuerySinglePassStereoSupport                   0x3B03791B
 _NvAPI_D3D12_SetDepthBoundsTestValues                       0xB9333FE9
-_NvAPI_D3D12_SetModifiedWMode                               0xE1FDABA7        // new with r375
-_NvAPI_D3D12_SetSinglePassStereoMode                        0x83556D87        // new with r375
+_NvAPI_D3D12_SetModifiedWMode                               0xE1FDABA7
+_NvAPI_D3D12_SetSinglePassStereoMode                        0x83556D87
 _NvAPI_D3D1x_CreateSwapChain                                0x1BC21B66
-_NvAPI_D3D1x_DisableShaderDiskCache                         0xD0CBCA7D
 _NvAPI_D3D1x_DisableShaderDiskCache                         0xD0CBCA7D
 _NvAPI_D3D9_AliasSurfaceAsTexture                           0xE5CEAE41
 _NvAPI_D3D9_ClearRT                                         0x332D3942
@@ -49,20 +48,20 @@ _NvAPI_D3D9_StretchRectEx                                   0x22DE03AA
 _NvAPI_D3D9_UnregisterResource                              0xBB2B17AA
 _NvAPI_D3D9_VideoSetStereoInfo                              0xB852F4DB
 _NvAPI_D3D_BeginResourceRendering                           0x91123D6A
-_NvAPI_D3D_ConfigureAnsel                                   0x341C6C7F        // new with r375
+_NvAPI_D3D_ConfigureAnsel                                   0x341C6C7F
 _NvAPI_D3D_EndResourceRendering                             0x37E7191C
 _NvAPI_D3D_GetCurrentSLIState                               0x4B708B54
 _NvAPI_D3D_GetObjectHandleForResource                       0xFCEAC864
 _NvAPI_D3D_ImplicitSLIControl                               0x2AEDE111
 _NvAPI_D3D_IsGSyncActive                                    0xE942B0FF
 _NvAPI_D3D_IsGSyncCapable                                   0x9C1EED78
-_NvAPI_D3D_QueryModifiedWSupport                            0xCBF9F4F5        // new with r375
-_NvAPI_D3D_QuerySinglePassStereoSupport                     0x6F5F0A6D        // new with r375
+_NvAPI_D3D_QueryModifiedWSupport                            0xCBF9F4F5
+_NvAPI_D3D_QuerySinglePassStereoSupport                     0x6F5F0A6D
 _NvAPI_D3D_RegisterDevice                                   0x8C02C4D0
 _NvAPI_D3D_SetFPSIndicatorState                             0xA776E8DB
-_NvAPI_D3D_SetModifiedWMode                                 0x06EA4BF4        // new with r375
+_NvAPI_D3D_SetModifiedWMode                                 0x06EA4BF4
 _NvAPI_D3D_SetResourceHint                                  0x6C0ED98C
-_NvAPI_D3D_SetSinglePassStereoMode                          0xA39E6E6E        // new with r375
+_NvAPI_D3D_SetSinglePassStereoMode                          0xA39E6E6E
 _NvAPI_DisableHWCursor                                      0xAB163097
 _NvAPI_Disp_ColorControl                                    0x92F9D80D
 _NvAPI_DISP_DeleteCustomDisplay                             0x552E5B9B
@@ -71,11 +70,11 @@ _NvAPI_DISP_GetAssociatedUnAttachedNvidiaDisplayHandle      0xA70503B2
 _NvAPI_DISP_GetDisplayConfig                                0x11ABCCF8
 _NvAPI_DISP_GetDisplayIdByDisplayName                       0xAE457190
 _NvAPI_DISP_GetGDIPrimaryDisplayId                          0x1E9D8A31
-_NvAPI_Disp_GetHdrCapabilities                              0x84F2A8DF        // new with r375
+_NvAPI_Disp_GetHdrCapabilities                              0x84F2A8DF
 _NvAPI_DISP_GetMonitorCapabilities                          0x3B05C7E1
 _NvAPI_DISP_GetMonitorColorCapabilities                     0x6AE4CFB5
 _NvAPI_DISP_GetTiming                                       0x175167E9
-_NvAPI_Disp_HdrColorControl                                 0x351DA224        // new with r375
+_NvAPI_Disp_HdrColorControl                                 0x351DA224
 _NvAPI_Disp_InfoFrameControl                                0x6067AF3F
 _NvAPI_DISP_RevertCustomDisplayTrial                        0xCBBD40F0
 _NvAPI_DISP_SaveCustomDisplay                               0x49882876
@@ -182,7 +181,7 @@ _NvAPI_GPU_GetScanoutConfiguration                          0x6A9F5B63
 _NvAPI_GPU_GetScanoutConfigurationEx                        0xE2E1E6F0
 _NvAPI_GPU_GetScanoutIntensityState                         0xE81CE836
 _NvAPI_GPU_GetScanoutWarpingState                           0x6F5435AF
-_NvAPI_GPU_GetShaderSubPipeCount                            0x0BE17923        // new with r375
+_NvAPI_GPU_GetShaderSubPipeCount                            0x0BE17923
 _NvAPI_GPU_GetSystemType                                    0xBAAABFCC
 _NvAPI_GPU_GetTachReading                                   0x5F608315
 _NvAPI_GPU_GetThermalSettings                               0xE3640A56
