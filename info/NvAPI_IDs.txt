@@ -2,8 +2,8 @@
 //
 // NVAPI ID'S
 //
-// Release 460
-// Date: Mar 10, 2021
+// Release 465
+// Date: Mar 31, 2021
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,6 +58,7 @@ _NvAPI_D3D12_CreateCommittedResource                        0x027E98AE
 _NvAPI_D3D12_CreateComputePipelineState                     0x2762DEAC
 _NvAPI_D3D12_CreateGraphicsPipelineState                    0x2FC28856
 _NvAPI_D3D12_CreateHeap                                     0x5CB397CF
+_NvAPI_D3D12_CreateHeap2                                    0x924BE9D6
 _NvAPI_D3D12_CreateMetaCommand                              0xEB29634B
 _NvAPI_D3D12_CreateReservedResource                         0x2C85F101
 _NvAPI_D3D12_EnumerateMetaCommands                          0xCD9141D8
@@ -67,6 +68,7 @@ _NvAPI_D3D12_InitializeMetaCommand                          0xA4125399
 _NvAPI_D3D12_IsNvShaderExtnOpCodeSupported                  0x3DFACEC8
 _NvAPI_D3D12_Mosaic_GetCompanionAllocations                 0xA46022C7
 _NvAPI_D3D12_Mosaic_GetViewportAndGpuPartitions             0xB092B818
+_NvAPI_D3D12_QueryCpuVisibleVidmem                          0x26322BC3
 _NvAPI_D3D12_QueryModifiedWSupport                          0x51235248
 _NvAPI_D3D12_QuerySinglePassStereoSupport                   0x3B03791B
 _NvAPI_D3D12_ReservedResourceGetDesc                        0x9AA2AABB
@@ -273,6 +275,7 @@ _NvAPI_GPU_GetVbiosRevision                                 0xACC3DA0A
 _NvAPI_GPU_GetVbiosVersionString                            0xA561FD7D
 _NvAPI_GPU_GetVirtualFrameBufferSize                        0x5A04B644
 _NvAPI_GPU_GetVirtualizationInfo                            0x44E022A9
+_NvAPI_GPU_GetVRReadyData                                   0x81D629C5
 _NvAPI_GPU_QueryIlluminationSupport                         0xA629DA31
 _NvAPI_GPU_QueryWorkstationFeatureSupport                   0x80B1ABB9
 _NvAPI_GPU_ResetECCErrorInfo                                0xC02EEC20
