@@ -163,6 +163,38 @@ class NvAPI
 
 	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
+	; // FUNCTION NAME: NvAPI.GetDisplayDriverMemoryInfo
+	; //
+	; // This function retrieves the display driver memory information for the active display handle.
+	; // In a multi-GPU scenario, the physical framebuffer information is obtained for the GPU associated with active display handle.
+	; // In an SLI-mode scenario, the physical framebuffer information is obtained only from the display owner GPU.
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetDisplayDriverMemoryInfo(thisEnum := 0)
+	{
+		static NV_DISPLAY_DRIVER_MEMORY_INFO := (6 * 4)
+
+		hNvDisplay := this.EnumNvidiaDisplayHandle(thisEnum)
+		MemoryInfo := Buffer(NV_DISPLAY_DRIVER_MEMORY_INFO, 0)
+		NumPut("UInt", NV_DISPLAY_DRIVER_MEMORY_INFO | 0x20000, MemoryInfo, 0)             ; [IN] version info
+		if !(NvStatus := DllCall(this.QueryInterface(0x774AA982), "Ptr", hNvDisplay, "Ptr", MemoryInfo, "CDecl"))
+		{
+			DRIVER_MEMORY_INFO := Map()
+			DRIVER_MEMORY_INFO["dedicatedVideoMemory"]             := NumGet(MemoryInfo,  4, "UInt")   ; [OUT] physical framebuffer (in kb)
+			DRIVER_MEMORY_INFO["availableDedicatedVideoMemory"]    := NumGet(MemoryInfo,  8, "UInt")   ; [OUT] available physical framebuffer for allocating video memory surfaces (in kb)
+			DRIVER_MEMORY_INFO["systemVideoMemory"]                := NumGet(MemoryInfo, 12, "UInt")   ; [OUT] system memory the driver allocates at load time (in kb)
+			DRIVER_MEMORY_INFO["sharedSystemMemory"]               := NumGet(MemoryInfo, 12, "UInt")   ; [OUT] shared system memory that driver is allowed to commit for surfaces across all allocations (in kb)
+			DRIVER_MEMORY_INFO["curAvailableDedicatedVideoMemory"] := NumGet(MemoryInfo, 12, "UInt")   ; [OUT] current available physical framebuffer for allocating video memory surfaces (in kb)
+			return DRIVER_MEMORY_INFO
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
 	; // FUNCTION NAME: NvAPI.GetDisplayDriverVersion
 	; //
 	; // This function returns a struct that describes aspects of the display driver build.
@@ -195,7 +227,7 @@ class NvAPI
 	; //
 	; // FUNCTION NAME: NvAPI.GetDriverMemoryInfo
 	; //
-	; // This function retrieves the display driver memory information for the active display handle. 
+	; // This function retrieves the display driver memory information for the active display handle.
 	; // In case of a multi-GPU scenario the physical framebuffer information is obtained for the GPU associated with the active display handle.
 	; // In the case of SLI, the physical framebuffer information is obtained only from the display owner GPU.
 	; //
