@@ -803,6 +803,37 @@ class SYS extends NvAPI
 
 	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
+	; // FUNCTION NAME: SYS.GetDisplayDriverInfo
+	; //
+	; // This API will return information related to the NVIDIA Display Driver.
+	; // Note that out of the driver types - Studio, Game Ready, RTX Production Branch, RTX New Feature Branch - only one driver type can be available in system.
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetDisplayDriverInfo()
+	{
+		static NV_DISPLAY_DRIVER_INFO := (2 * 4) + (Const.NVAPI_SHORT_STRING_MAX) + 4
+		static NvCaps := Map("IsDCHDriver", 1, "IsNVIDIAStudioPackage", 2, "IsNVIDIAGameReadyPackage", 4, "IsNVIDIARTXProductionBranchPackage", 8, "IsNVIDIARTXNewFeatureBranchPackage", 16)
+
+		DriverInfo := Buffer(NV_DISPLAY_DRIVER_INFO, 0)
+		NumPut("UInt", NV_DISPLAY_DRIVER_INFO | 0x10000, DriverInfo, 0)                                                    ; [IN] version info
+		if !(NvStatus := DllCall(this.QueryInterface(0x721FACEB), "Ptr", DriverInfo, "CDecl"))
+		{
+			DRIVER_INFO := Map()
+			DRIVER_INFO["driverVersion"] := NumGet(DriverInfo, 4, "UInt")                                                  ; [OUT] driver version
+			DRIVER_INFO["BuildBranch"]   := StrGet(DriverInfo.Ptr + 8, Const.NVAPI_SHORT_STRING_MAX, "CP0")                ; [OUT] driver-branch string
+			bitfield := NumGet(DriverInfo, 72, "UInt")
+			for NvCap, mask in NvCaps
+				DRIVER_INFO[NvCap] := !!(bitfield & mask)
+			return DRIVER_INFO
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
 	; // FUNCTION NAME: SYS.GetDriverAndBranchVersion
 	; //
 	; // This API returns display driver version and driver-branch string.
