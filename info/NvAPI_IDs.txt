@@ -234,7 +234,7 @@ _NvAPI_GetDisplayPortInfo                                   0xC64FF367
 _NvAPI_GetErrorMessage                                      0x6C2D048C
 _NvAPI_GetHDMISupportInfo                                   0x6AE16EC3
 _NvAPI_GetInterfaceVersionString                            0x01053FA5
-_NvAPI_GetInterfaceVersionStringEx                          0x6C2D048C
+_NvAPI_GetInterfaceVersionStringEx                          ??????????
 _NvAPI_GetLogicalGPUFromDisplay                             0xEE1370CF
 _NvAPI_GetLogicalGPUFromPhysicalGPU                         0xADD604D1
 _NvAPI_GetPhysicalGPUFromUnAttachedDisplay                  0x5018ED61
@@ -613,6 +613,7 @@ _NvAPI_GPU_GetPowerMizerInfo                                0x76BFA16B
 _NvAPI_GPU_GetPstateClientLimits                            0x88C82104
 _NvAPI_GPU_GetPstatesInfo                                   0xBA94C56E
 _NvAPI_GPU_GetQuadroStatus                                  0xE332FA47
+_NvAPI_GPU_GetRamMaker                                      0x42AEA16A
 _NvAPI_GPU_GetRamType                                       0x57F7CAAC
 _NvAPI_GPU_GetShaderPipeCount                               0x63E2F56F
 _NvAPI_GPU_GetShaderSubPipeCount                            0x0BE17923
