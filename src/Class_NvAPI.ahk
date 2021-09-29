@@ -465,6 +465,56 @@ class GPU extends NvAPI
 
 	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
+	; // FUNCTION NAME: GPU.GetCurrentFanSpeedLevel
+	; //
+	; // This API returns the current fan speed Level (Normal, Medium or Critical).
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetCurrentFanSpeedLevel(hPhysicalGpu := 0)
+	{
+		static NV_EVENT_LEVEL := Map(0, "UNKNOWN", 1, "NORMAL", 2, "WARNING", 3, "CRITICAL")
+
+		if !(hPhysicalGpu)
+		{
+			hPhysicalGpu := this.EnumPhysicalGPUs()[1]
+		}
+		if !(NvStatus := DllCall(this.QueryInterface(0xBD71F0C9), "Ptr", hPhysicalGpu, "Int*", &FanSpeedLevel := 0, "CDecl"))
+		{
+			return NV_EVENT_LEVEL[FanSpeedLevel]
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
+	; // FUNCTION NAME: GPU.GetCurrentThermalLevel
+	; //
+	; // This API returns the current Level (Normal, Medium or Critical) of the thermal sensor.
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetCurrentThermalLevel(hPhysicalGpu := 0)
+	{
+		static NV_EVENT_LEVEL := Map(0, "UNKNOWN", 1, "NORMAL", 2, "WARNING", 3, "CRITICAL")
+
+		if !(hPhysicalGpu)
+		{
+			hPhysicalGpu := this.EnumPhysicalGPUs()[1]
+		}
+		if !(NvStatus := DllCall(this.QueryInterface(0xD2488B79), "Ptr", hPhysicalGpu, "Int*", &ThermalLevel := 0, "CDecl"))
+		{
+			return NV_EVENT_LEVEL[ThermalLevel]
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
 	; // FUNCTION NAME: GPU.GetFullName
 	; //
 	; // This function retrieves the full GPU name as an ASCII string - for example, "Quadro FX 1400".
@@ -539,6 +589,31 @@ class GPU extends NvAPI
 			MEMORY_INFO["dedicatedVideoMemoryEvictionsSize"] := NumGet(MemoryInfo, 24, "UInt")   ; [OUT] total size of memory released as a result of the evictions (in kb)
 			MEMORY_INFO["dedicatedVideoMemoryEvictionCount"] := NumGet(MemoryInfo, 28, "UInt")   ; [OUT] number of eviction events that caused an allocation to be removed from dedicated video memory to free GPU video memory to make room for other allocations.
 			return MEMORY_INFO
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
+	; // FUNCTION NAME: GPU.GetRamType
+	; //
+	; // This function retrieves the type of VRAM associated with this GPU.
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetRamType(hPhysicalGpu := 0)
+	{
+		static NV_GPU_RAM_TYPE := Map(0, "UNKNOWN", 1, "SDRAM", 2, "DDR1", 3, "DDR2", 4, "GDDR2", 5, "GDDR3", 6, "GDDR4", 7, "DDR3", 8, "GDDR5", 9, "LPDDR2")
+
+		if !(hPhysicalGpu)
+		{
+			hPhysicalGpu := this.EnumPhysicalGPUs()[1]
+		}
+		if !(NvStatus := DllCall(this.QueryInterface(0x57F7CAAC), "Ptr", hPhysicalGpu, "Int*", &RamType := 0, "CDecl"))
+		{
+			return NV_GPU_RAM_TYPE[RamType]
 		}
 
 		return this.GetErrorMessage(NvStatus)
