@@ -267,6 +267,33 @@ class NvAPI
 
 	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
+	; // FUNCTION NAME: NvAPI.GetHUEInfo
+	; //
+	; // This API retrieves the HUE information of the selected display.
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetHUEInfo(thisEnum := 0)
+	{
+		static NV_DISPLAY_HUE_INFO := (3 * 4)
+
+		hNvDisplay := this.EnumNvidiaDisplayHandle(thisEnum)
+		HUEInfo := Buffer(NV_DISPLAY_HUE_INFO, 0)
+		NumPut("UInt", NV_DISPLAY_HUE_INFO | 0x10000, HUEInfo, 0)        ; [IN] version info
+		if !(NvStatus := DllCall(this.QueryInterface(0x95B64341), "Ptr", hNvDisplay, "UInt", outputId := 0, "Ptr", HUEInfo, "CDecl"))
+		{
+			HUE_INFO := Map()
+			HUE_INFO["currentHueAngle"] := NumGet(HUEInfo,  4, "UInt")   ; [OUT] current HUE Angle. typically between 0 - 360 degrees
+			HUE_INFO["defaultHueAngle"] := NumGet(HUEInfo,  8, "UInt")   ; [OUT] default HUE Angle
+			return HUE_INFO
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
 	; // FUNCTION NAME: NvAPI.GetInterfaceVersionString
 	; //
 	; // This function returns a string describing the version of the NvAPI library.
@@ -343,6 +370,32 @@ class NvAPI
 		return NvAPI.GetErrorMessage(NvStatus)
 	}
 
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
+	; // FUNCTION NAME: NvAPI.SetHUEAngle
+	; //
+	; // This API sets the HUE level for the selected display.
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static SetHUEAngle(hueAngle, thisEnum := 0)
+	{
+		if (hueAngle < 0) || (hueAngle > 360)
+		{
+			MsgBox("HUEAngle should be within the range of min [" 0 "] and max [" 360 "].", A_ThisFunc)
+			return 0
+		}
+
+		hNvDisplay := this.EnumNvidiaDisplayHandle(thisEnum)
+		if !(NvStatus := DllCall(this.QueryInterface(0xF5A0F22C), "Ptr", hNvDisplay, "UInt", outputId := 0, "UInt", hueAngle, "CDECL"))
+		{
+			return hueAngle
+		}
+
+		return NvAPI.GetErrorMessage(NvStatus)
+	}
+
 }
 
 
@@ -351,6 +404,64 @@ class NvAPI
 
 class GPU extends NvAPI
 {
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
+	; // FUNCTION NAME: GPU.GetCoolerSettings
+	; //
+	; // This function retrieves the cooler information of all coolers or a specific cooler associated with the selected GPU.
+	; // Coolers are indexed 0 to NVAPI_MAX_COOLERS_PER_GPU-1.
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetCoolerSettings(hPhysicalGpu := 0)
+	{
+		static NV_GPU_GETCOOLER_SETTINGS := (2 * 4) + (16 * 4 * Const.NVAPI_MAX_COOLERS_PER_GPU)
+		static NV_COOLER_TYPE       := Map(0, "NONE", 1, "FAN", 2, "WATER", 3, "LIQUID_NO2")
+		static NV_COOLER_CONTROLLER := Map(0, "NONE", 1, "ADI", 2, "INTERNAL")
+		static NV_COOLER_POLICY     := Map(0, "NONE", 1, "MANUAL", 2, "PERF", 4, "DISCRETE", 8, "CONTINUOUS", 16, "CONTINUOUS_SW", 32, "DEFAULT")
+		static NV_COOLER_TARGET     := Map(0, "NONE", 1, "GPU", 2, "MEMORY", 4, "POWER_SUPPLY", 7, "ALL", 8, "COOLER1", 9, "COOLER2", 10, "COOLER3")
+		static NV_COOLER_CONTROL    := Map(0, "NONE", 1, "TOGGLE", 2, "VARIABLE")
+
+		if !(hPhysicalGpu)
+		{
+			hPhysicalGpu := this.EnumPhysicalGPUs()[1]
+		}
+		CoolerInfo := Buffer(NV_GPU_GETCOOLER_SETTINGS, 0)
+		NumPut("UInt", NV_GPU_GETCOOLER_SETTINGS | 0x30000, CoolerInfo, 0)                                   ; [IN] structure version
+		if !(NvStatus := DllCall(this.QueryInterface(0xDA141340), "Ptr", hPhysicalGpu, "UInt", Const.NVAPI_COOLER_TARGET_ALL, "Ptr", CoolerInfo, "CDecl"))
+		{
+			COOLER_SETTINGS := Map()
+			COOLER_SETTINGS["count"] := NumGet(CoolerInfo, 4, "UInt")                                        ; [OUT] number of associated coolers with the selected GPU
+			loop COOLER_SETTINGS["count"]
+			{
+				Offset := 8 + ((A_Index - 1) * 64)
+				COOLER := Map()
+				COOLER["type"]            := NV_COOLER_TYPE[NumGet(CoolerInfo, Offset, "UInt")]              ; [OUT] type of cooler - FAN, WATER, LIQUID_NO2...
+				COOLER["controller"]      := NV_COOLER_CONTROLLER[NumGet(CoolerInfo, Offset + 4, "UInt")]    ; [OUT] internal, ADI...
+				COOLER["defaultMinLevel"] := NumGet(CoolerInfo, Offset + 8, "UInt")                          ; [OUT] the min default value % of the cooler
+				COOLER["defaultMaxLevel"] := NumGet(CoolerInfo, Offset + 12, "UInt")                         ; [OUT] the max default value % of the cooler
+				COOLER["currentMinLevel"] := NumGet(CoolerInfo, Offset + 16, "UInt")                         ; [OUT] the current allowed min value % of the cooler
+				COOLER["currentMaxLevel"] := NumGet(CoolerInfo, Offset + 20, "UInt")                         ; [OUT] the current allowed max value % of the cooler
+				COOLER["currentLevel"]    := NumGet(CoolerInfo, Offset + 24, "UInt")                         ; [OUT] the current value % of the cooler
+				COOLER["defaultPolicy"]   := NV_COOLER_POLICY[NumGet(CoolerInfo, Offset + 28, "UInt")]       ; [OUT] cooler control policy - auto-perf, auto-thermal, manual, hybrid...
+				COOLER["currentPolicy"]   := NV_COOLER_POLICY[NumGet(CoolerInfo, Offset + 32, "UInt")]       ; [OUT] cooler control policy - auto-perf, auto-thermal, manual, hybrid...
+				COOLER["target"]          := NV_COOLER_TARGET[NumGet(CoolerInfo, Offset + 36, "UInt")]       ; [OUT] cooling target - GPU, memory, chipset, powersupply, Visual Computing Device...
+				COOLER["controlType"]     := NV_COOLER_CONTROL[NumGet(CoolerInfo, Offset + 40, "UInt")]      ; [OUT] toggle or variable
+				COOLER["active"]          := NumGet(CoolerInfo, Offset + 44, "UInt")                         ; [OUT] is the cooler active - fan spinning...
+				COOLER["speedRPM"]        := NumGet(CoolerInfo, Offset + 48, "UInt")                         ; [OUT] current tachometer reading in RPM
+				COOLER["bSupported"]      := NumGet(CoolerInfo, Offset + 52, "UChar")                        ; [OUT] cooler supports tach function?
+				COOLER["maxSpeedRPM"]     := NumGet(CoolerInfo, Offset + 56, "UInt")                         ; [OUT] maximum RPM corresponding to 100% defaultMaxLevel
+				COOLER["minSpeedRPM"]     := NumGet(CoolerInfo, Offset + 60, "UInt")                         ; [OUT] minimum RPM corresponding to 100% defaultMinLevel
+
+				COOLER_SETTINGS[A_Index] := COOLER
+			}
+			return COOLER_SETTINGS
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
 
 	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
@@ -507,7 +618,9 @@ class SYS extends NvAPI
 
 class Const extends NvAPI
 {
+	static NVAPI_COOLER_TARGET_ALL       := 7
 	static NVAPI_SHORT_STRING_MAX        := 64
+	static NVAPI_MAX_COOLERS_PER_GPU     := 20
 	static NVAPI_MAX_LOGICAL_GPUS        := 64
 	static NVAPI_MAX_PHYSICAL_GPUS       := 64
 }
