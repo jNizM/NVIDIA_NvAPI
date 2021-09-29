@@ -174,17 +174,46 @@ class NvAPI
 		static NV_DISPLAY_DRIVER_VERSION := (3 * 4) + (2 * Const.NVAPI_SHORT_STRING_MAX)
 
 		hNvDisplay := this.EnumNvidiaDisplayHandle(thisEnum)
-		pVersion := Buffer(NV_DISPLAY_DRIVER_VERSION, 0)
-		NumPut("UInt", NV_DISPLAY_DRIVER_VERSION | 0x10000, pVersion, 0)     ; [IN] version info
-		if !(NvStatus := DllCall(this.QueryInterface(0xF951A4D1), "Ptr", hNvDisplay, "Ptr", pVersion, "CDecl"))
+		Version := Buffer(NV_DISPLAY_DRIVER_VERSION, 0)
+		NumPut("UInt", NV_DISPLAY_DRIVER_VERSION | 0x10000, Version, 0)                                            ; [IN] version info
+		if !(NvStatus := DllCall(this.QueryInterface(0xF951A4D1), "Ptr", hNvDisplay, "Ptr", Version, "CDecl"))
 		{
-			DriverVersion := Map()
-			DriverVersion["version"]           := NumGet(pVersion, 0, "UInt")
-			DriverVersion["drvVersion"]        := NumGet(pVersion, 4, "UInt")
-			DriverVersion["bldChangeListNum"]  := NumGet(pVersion, 8, "UInt")
-			DriverVersion["BuildBranchString"] := StrGet(pVersion.Ptr + 12, Const.NVAPI_SHORT_STRING_MAX, "CP0")
-			DriverVersion["AdapterString"]     := StrGet(pVersion.Ptr + 76, Const.NVAPI_SHORT_STRING_MAX, "CP0")
-			return DriverVersion
+			DRIVER_VERSION := Map()
+			DRIVER_VERSION["drvVersion"]        := NumGet(Version, 4, "UInt")                                      ; [OUT] 
+			DRIVER_VERSION["bldChangeListNum"]  := NumGet(Version, 8, "UInt")                                      ; [OUT] 
+			DRIVER_VERSION["BuildBranchString"] := StrGet(Version.Ptr + 12, Const.NVAPI_SHORT_STRING_MAX, "CP0")   ; [OUT] 
+			DRIVER_VERSION["AdapterString"]     := StrGet(Version.Ptr + 76, Const.NVAPI_SHORT_STRING_MAX, "CP0")   ; [OUT] 
+			return DRIVER_VERSION
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
+	; // FUNCTION NAME: NvAPI.GetDriverMemoryInfo
+	; //
+	; // This function retrieves the display driver memory information for the active display handle. 
+	; // In case of a multi-GPU scenario the physical framebuffer information is obtained for the GPU associated with the active display handle.
+	; // In the case of SLI, the physical framebuffer information is obtained only from the display owner GPU.
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetDriverMemoryInfo(thisEnum := 0)
+	{
+		static NV_DRIVER_MEMORY_INFO := (4 * 4)
+
+		hNvDisplay := this.EnumNvidiaDisplayHandle(thisEnum)
+		MemoryInfo := Buffer(NV_DRIVER_MEMORY_INFO, 0)
+		NumPut("UInt", NV_DRIVER_MEMORY_INFO | 0x10000, MemoryInfo, 0)              ; [IN] version info
+		if !(NvStatus := DllCall(this.QueryInterface(0x2DC95125), "Ptr", hNvDisplay, "Ptr", MemoryInfo, "CDecl"))
+		{
+			MEMORY_INFO := Map()
+			MEMORY_INFO["dedicatedVideoMemory"] := NumGet(MemoryInfo,  4, "UInt")   ; [OUT] physical framebuffer (in kb)
+			MEMORY_INFO["systemVideoMemory"]    := NumGet(MemoryInfo,  8, "UInt")   ; [OUT] system memory the driver allocates at load time (in kb)
+			MEMORY_INFO["sharedSystemMemory"]   := NumGet(MemoryInfo, 12, "UInt")   ; [OUT] shared system memory that driver is allowed to commit for surfaces across all allocations (in kb)
+			return MEMORY_INFO
 		}
 
 		return this.GetErrorMessage(NvStatus)
@@ -361,7 +390,7 @@ class NvAPI
 		hNvDisplay := this.EnumNvidiaDisplayHandle(thisEnum)
 		DVCInfo := Buffer(NV_DISPLAY_DVC_INFO_EX, 0)
 		NumPut("UInt", NV_DISPLAY_DVC_INFO_EX | 0x10000, DVCInfo, 0)   ; [IN] version info
-		NumPut("Int",  currentLevel, DVCInfo, 4)                       ; [IN] current DVC level
+		NumPut("Int", currentLevel, DVCInfo, 4)                        ; [IN] current DVC level
 		if !(NvStatus := DllCall(this.QueryInterface(0x4A82C2B1), "Ptr", hNvDisplay, "UInt", outputId := 0, "Ptr", DVCInfo, "CDECL"))
 		{
 			return currentLevel
@@ -598,6 +627,31 @@ class GPU extends NvAPI
 
 	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
+	; // FUNCTION NAME: GPU.GetRamMaker
+	; //
+	; // This function retrieves the RAM maker associated with this GPU.
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetRamMaker(hPhysicalGpu := 0)
+	{
+		static NV_RAM_MAKER := Map(0, "UNKNOWN", 1, "SAMSUNG", 2, "QIMONDA", 3, "ELPIDA", 4, "ETRON", 5, "NANYA", 6, "HYNIX", 7, "MOSEL", 8, "WINBOND", 9, "ELITE", 10, "MICRON")
+
+		if !(hPhysicalGpu)
+		{
+			hPhysicalGpu := this.EnumPhysicalGPUs()[1]
+		}
+		if !(NvStatus := DllCall(this.QueryInterface(0x42AEA16A), "Ptr", hPhysicalGpu, "Int*", &RamType := 0, "CDecl"))
+		{
+			return NV_RAM_MAKER[RamType]
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
 	; // FUNCTION NAME: GPU.GetRamType
 	; //
 	; // This function retrieves the type of VRAM associated with this GPU.
@@ -614,6 +668,57 @@ class GPU extends NvAPI
 		if !(NvStatus := DllCall(this.QueryInterface(0x57F7CAAC), "Ptr", hPhysicalGpu, "Int*", &RamType := 0, "CDecl"))
 		{
 			return NV_GPU_RAM_TYPE[RamType]
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
+	; // FUNCTION NAME: GPU.GetUsages
+	; //
+	; // This function retrieves the usage associated with this GPU.
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetUsages(hPhysicalGpu := 0)
+	{
+		static NV_USAGES_INFO := 4 + (4 * Const.NVAPI_MAX_USAGES_PER_GPU)
+
+		if !(hPhysicalGpu)
+		{
+			hPhysicalGpu := this.EnumPhysicalGPUs()[1]
+		}
+		UsagesInfo := Buffer(NV_USAGES_INFO, 0)
+		NumPut("UInt", NV_USAGES_INFO | 0x10000, UsagesInfo, 0)   ; [IN] version info
+		if !(NvStatus := DllCall(this.QueryInterface(0x189A1FDF), "Ptr", hPhysicalGpu, "Ptr", UsagesInfo, "CDecl"))
+		{
+			return NumGet(UsagesInfo, 12, "UInt")                  ; [OUT] GPU usage
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
+	; // FUNCTION NAME: GPU.GetQuadroStatus
+	; //
+	; // This function retrieves the Quadro status for the GPU (1 if Quadro, 0 if GeForce).
+	; // Do not use this function - it is deprecated in release 460.
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetQuadroStatus(hPhysicalGpu := 0)
+	{
+		if !(hPhysicalGpu)
+		{
+			hPhysicalGpu := this.EnumPhysicalGPUs()[1]
+		}
+		if !(NvStatus := DllCall(this.QueryInterface(0xE332FA47), "Ptr", hPhysicalGpu, "UInt*", &Status := 0, "CDecl"))
+		{
+			return (Status) ? "Quadro" : "GeForce"
 		}
 
 		return this.GetErrorMessage(NvStatus)
@@ -698,6 +803,7 @@ class Const extends NvAPI
 	static NVAPI_MAX_COOLERS_PER_GPU     := 20
 	static NVAPI_MAX_LOGICAL_GPUS        := 64
 	static NVAPI_MAX_PHYSICAL_GPUS       := 64
+	static NVAPI_MAX_USAGES_PER_GPU      := 33
 }
 
 
