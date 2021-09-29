@@ -1,4 +1,9 @@
-﻿; ===== NvAPI CORE FUNCTIONS =================================================================================================================================================
+﻿; SCRIPT DIRECTIVES =========================================================================================================================================================
+
+#Requires AutoHotkey v2.0-
+
+
+; ===== NvAPI CORE FUNCTIONS ================================================================================================================================================
 
 class NvAPI
 {
@@ -38,14 +43,14 @@ class NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: NvAPI.EnumLogicalGPUs
 	; //
 	; // This function returns an array of logical GPU handles.
 	; // Each handle represents one or more GPUs acting in concert as a single graphics device.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static EnumLogicalGPUs()
 	{
 		NvLogicalGpuHandle := Buffer(4 * Const.NVAPI_MAX_LOGICAL_GPUS, 0)
@@ -54,7 +59,7 @@ class NvAPI
 			Enum := []
 			loop GPUCount
 			{
-				Enum.Push(NumGet(NvLogicalGpuHandle, 4 * (A_Index - 1), "UInt"))  ; One or more physical GPUs acting in concert (SLI)
+				Enum.Push(NumGet(NvLogicalGpuHandle, 4 * (A_Index - 1), "UInt"))   ; [OUT] One or more physical GPUs acting in concert (SLI)
 			}
 			return Enum
 		}
@@ -64,19 +69,19 @@ class NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: NvAPI.EnumNvidiaDisplayHandle
 	; //
 	; // This function returns the handle of the NVIDIA display specified by the enum index (thisEnum).
 	; // The client should keep enumerating until it returns error.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static EnumNvidiaDisplayHandle(thisEnum := 0)
 	{
 		if !(NvStatus := DllCall(this.QueryInterface(0x9ABDD40D), "UInt", thisEnum, "Ptr*", &NvDisplayHandle := 0, "CDecl"))
 		{
-			return NvDisplayHandle  ; Display Device driven by NVIDIA GPU(s) (an attached display)
+			return NvDisplayHandle   ; [OUT] Display Device driven by NVIDIA GPU(s) (an attached display)
 		}
 
 		return this.GetErrorMessage(NvStatus)
@@ -84,19 +89,19 @@ class NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: NvAPI.EnumNvidiaUnAttachedDisplayHandle
 	; //
 	; // This function returns the handle of the NVIDIA unattached display specified by the enum index (thisEnum).
 	; // The client should keep enumerating until it returns error.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static EnumNvidiaUnAttachedDisplayHandle(thisEnum := 0)
 	{
 		if !(NvStatus := DllCall(this.QueryInterface(0x20DE9260), "UInt", thisEnum, "Ptr*", &NvUnAttachedDisplayHandle := 0, "CDecl"))
 		{
-			return NvUnAttachedDisplayHandle  ; Unattached Display Device driven by NVIDIA GPU(s)
+			return NvUnAttachedDisplayHandle   ; [OUT] Unattached Display Device driven by NVIDIA GPU(s)
 		}
 
 		return this.GetErrorMessage(NvStatus)
@@ -104,14 +109,14 @@ class NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: NvAPI.EnumPhysicalGPUs
 	; //
 	; // This function returns an array of physical GPU handles.
 	; // Each handle represents a physical GPU present in the system.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static EnumPhysicalGPUs()
 	{
 		NvPhysicalGpuHandle := Buffer(4 * Const.NVAPI_MAX_PHYSICAL_GPUS, 0)
@@ -120,7 +125,7 @@ class NvAPI
 			Enum := []
 			loop GPUCount
 			{
-				Enum.Push(NumGet(NvPhysicalGpuHandle, 4 * (A_Index - 1), "UInt"))  ; A single physical GPU
+				Enum.Push(NumGet(NvPhysicalGpuHandle, 4 * (A_Index - 1), "UInt"))   ; [OUT] A single physical GPU
 			}
 			return Enum
 		}
@@ -130,14 +135,14 @@ class NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: NvAPI.EnumTCCPhysicalGPUs
 	; //
 	; // This function returns an array of physical GPU handles that are in TCC Mode.
 	; // Each handle represents a physical GPU present in the system in TCC Mode.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static EnumTCCPhysicalGPUs()
 	{
 		NvPhysicalGpuHandle := Buffer(4 * Const.NVAPI_MAX_PHYSICAL_GPUS, 0)
@@ -146,7 +151,7 @@ class NvAPI
 			Enum := []
 			loop GPUCount
 			{
-				Enum.Push(NumGet(NvPhysicalGpuHandle, 4 * (A_Index - 1), "UInt"))  ; A single physical GPU
+				Enum.Push(NumGet(NvPhysicalGpuHandle, 4 * (A_Index - 1), "UInt"))   ; [OUT] A single physical GPU
 			}
 			return Enum
 		}
@@ -156,21 +161,21 @@ class NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: NvAPI.GetDisplayDriverVersion
 	; //
 	; // This function returns a struct that describes aspects of the display driver build.
 	; // Do not use this function - it is deprecated in release 290. Instead, use NvAPI_SYS_GetDriverAndBranchVersion.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static GetDisplayDriverVersion(thisEnum := 0)
 	{
 		static NV_DISPLAY_DRIVER_VERSION := (3 * 4) + (2 * Const.NVAPI_SHORT_STRING_MAX)
 
 		hNvDisplay := this.EnumNvidiaDisplayHandle(thisEnum)
 		pVersion := Buffer(NV_DISPLAY_DRIVER_VERSION, 0)
-		NumPut("UInt", NV_DISPLAY_DRIVER_VERSION | 0x10000, pVersion, 0)
+		NumPut("UInt", NV_DISPLAY_DRIVER_VERSION | 0x10000, pVersion, 0)     ; [IN] version info
 		if !(NvStatus := DllCall(this.QueryInterface(0xF951A4D1), "Ptr", hNvDisplay, "Ptr", pVersion, "CDecl"))
 		{
 			DriverVersion := Map()
@@ -187,26 +192,26 @@ class NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: NvAPI.GetDVCInfo
 	; //
 	; // This function retrieves the Digital Vibrance Control (DVC) information of the selected display.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static GetDVCInfo(thisEnum := 0)
 	{
 		static NV_DISPLAY_DVC_INFO := (4 * 4)
 
 		hNvDisplay := this.EnumNvidiaDisplayHandle(thisEnum)
 		DVCInfo := Buffer(NV_DISPLAY_DVC_INFO, 0)
-		NumPut("UInt", NV_DISPLAY_DVC_INFO | 0x10000, DVCInfo, 0)    ; [IN] version info
+		NumPut("UInt", NV_DISPLAY_DVC_INFO | 0x10000, DVCInfo, 0)     ; [IN] version info
 		if !(NvStatus := DllCall(this.QueryInterface(0x4085DE45), "Ptr", hNvDisplay, "UInt", outputId := 0, "Ptr", DVCInfo, "CDecl"))
 		{
 			DVC_INFO := Map()
-			DVC_INFO["currentLevel"] := NumGet(DVCInfo,  4, "UInt")  ; [OUT] current DVC level
-			DVC_INFO["minLevel"]     := NumGet(DVCInfo,  8, "UInt")  ; [OUT] min range level
-			DVC_INFO["maxLevel"]     := NumGet(DVCInfo, 12, "UInt")  ; [OUT] max range level
+			DVC_INFO["currentLevel"] := NumGet(DVCInfo,  4, "UInt")   ; [OUT] current DVC level
+			DVC_INFO["minLevel"]     := NumGet(DVCInfo,  8, "UInt")   ; [OUT] min range level
+			DVC_INFO["maxLevel"]     := NumGet(DVCInfo, 12, "UInt")   ; [OUT] max range level
 			return DVC_INFO
 		}
 
@@ -215,13 +220,13 @@ class NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: NvAPI.GetDVCInfoEx
 	; //
 	; // This API retrieves the Digital Vibrance Control(DVC) information of the selected display.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static GetDVCInfoEx(thisEnum := 0)
 	{
 		static NV_DISPLAY_DVC_INFO_EX := (5 * 4)
@@ -244,13 +249,13 @@ class NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: NvAPI.GetErrorMessage
 	; //
 	; // This function converts an NvAPI error code into a null terminated string.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static GetErrorMessage(ErrorCode)
 	{
 		Desc := Buffer(Const.NVAPI_SHORT_STRING_MAX, 0)
@@ -260,14 +265,14 @@ class NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: NvAPI.GetInterfaceVersionString
 	; //
 	; // This function returns a string describing the version of the NvAPI library.
 	; // The contents of the string are human readable. Do not assume a fixed format.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static GetInterfaceVersionString()
 	{
 		Desc := Buffer(Const.NVAPI_SHORT_STRING_MAX, 0)
@@ -281,13 +286,13 @@ class NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: NvAPI.SetDVCLevel
 	; //
 	; // This function sets the DVC level for the selected display.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static SetDVCLevel(level, thisEnum := 0)
 	{
 		DVC := this.GetDVCInfo(thisEnum)
@@ -308,13 +313,13 @@ class NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: NvAPI.SetDVCLevelEx
 	; //
 	; // This API retrieves the Digital Vibrance Control(DVC) information of the selected display.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static SetDVCLevelEx(currentLevel, thisEnum := 0)
 	{
 		static NV_DISPLAY_DVC_INFO_EX := (5 * 4) 
@@ -328,8 +333,8 @@ class NvAPI
 
 		hNvDisplay := this.EnumNvidiaDisplayHandle(thisEnum)
 		DVCInfo := Buffer(NV_DISPLAY_DVC_INFO_EX, 0)
-		NumPut("UInt", NV_DISPLAY_DVC_INFO_EX | 0x10000, DVCInfo, 0)
-		NumPut("Int",  currentLevel, DVCInfo, 4)
+		NumPut("UInt", NV_DISPLAY_DVC_INFO_EX | 0x10000, DVCInfo, 0)   ; [IN] version info
+		NumPut("Int",  currentLevel, DVCInfo, 4)                       ; [IN] current DVC level
 		if !(NvStatus := DllCall(this.QueryInterface(0x4A82C2B1), "Ptr", hNvDisplay, "UInt", outputId := 0, "Ptr", DVCInfo, "CDECL"))
 		{
 			return currentLevel
@@ -342,18 +347,18 @@ class NvAPI
 
 
 
-; ===== NvAPI GPU FUNCTIONS ==================================================================================================================================================
+; ===== NvAPI GPU FUNCTIONS =================================================================================================================================================
 
 class GPU extends NvAPI
 {
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: GPU.GetFullName
 	; //
 	; // This function retrieves the full GPU name as an ASCII string - for example, "Quadro FX 1400".
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static GetFullName(hPhysicalGpu := 0)
 	{
 		if !(hPhysicalGpu)
@@ -371,13 +376,13 @@ class GPU extends NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: GPU.GetGpuCoreCount
 	; //
 	; // Retrieves the total number of cores defined for a GPU.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static GetGpuCoreCount(hPhysicalGpu := 0)
 	{
 		if !(hPhysicalGpu)
@@ -394,14 +399,14 @@ class GPU extends NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: GPU.GetMemoryInfo
 	; //
 	; // This function retrieves the available driver memory footprint for the specified GPU.
 	; // If the GPU is in TCC Mode, only dedicatedVideoMemory will be returned.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static GetMemoryInfo(hPhysicalGpu := 0)
 	{
 		static NV_DISPLAY_DRIVER_MEMORY_INFO := (8 * 4)
@@ -411,18 +416,17 @@ class GPU extends NvAPI
 			hPhysicalGpu := this.EnumPhysicalGPUs()[1]
 		}
 		MemoryInfo := Buffer(NV_DISPLAY_DRIVER_MEMORY_INFO, 0)
-		NumPut("UInt", NV_DISPLAY_DRIVER_MEMORY_INFO | 0x30000, MemoryInfo, 0)
+		NumPut("UInt", NV_DISPLAY_DRIVER_MEMORY_INFO | 0x30000, MemoryInfo, 0)                   ; [IN] version info
 		if !(NvStatus := DllCall(this.QueryInterface(0x07F9B368), "Ptr", hPhysicalGpu, "Ptr", MemoryInfo, "CDecl"))
 		{
 			MEMORY_INFO := Map()
-			MEMORY_INFO["version"]                           := NumGet(MemoryInfo,  0, "UInt")  ; Version info
-			MEMORY_INFO["dedicatedVideoMemory"]              := NumGet(MemoryInfo,  4, "UInt")  ; Size(in kb) of the physical framebuffer.
-			MEMORY_INFO["availableDedicatedVideoMemory"]     := NumGet(MemoryInfo,  8, "UInt")  ; Size(in kb) of the available physical framebuffer for allocating video memory surfaces.
-			MEMORY_INFO["systemVideoMemory"]                 := NumGet(MemoryInfo, 12, "UInt")  ; Size(in kb) of system memory the driver allocates at load time.
-			MEMORY_INFO["sharedSystemMemory"]                := NumGet(MemoryInfo, 16, "UInt")  ; Size(in kb) of shared system memory that driver is allowed to commit for surfaces across all allocations.
-			MEMORY_INFO["curAvailableDedicatedVideoMemory"]  := NumGet(MemoryInfo, 20, "UInt")  ; Size(in kb) of the current available physical framebuffer for allocating video memory surfaces.
-			MEMORY_INFO["dedicatedVideoMemoryEvictionsSize"] := NumGet(MemoryInfo, 24, "UInt")  ; Size(in kb) of the total size of memory released as a result of the evictions.
-			MEMORY_INFO["dedicatedVideoMemoryEvictionCount"] := NumGet(MemoryInfo, 28, "UInt")  ; Indicates the number of eviction events that caused an allocation to be removed from dedicated video memory to free GPU video memory to make room for other allocations.
+			MEMORY_INFO["dedicatedVideoMemory"]              := NumGet(MemoryInfo,  4, "UInt")   ; [OUT] physical framebuffer (in kb)
+			MEMORY_INFO["availableDedicatedVideoMemory"]     := NumGet(MemoryInfo,  8, "UInt")   ; [OUT] available physical framebuffer for allocating video memory surfaces (in kb)
+			MEMORY_INFO["systemVideoMemory"]                 := NumGet(MemoryInfo, 12, "UInt")   ; [OUT] system memory the driver allocates at load time (in kb)
+			MEMORY_INFO["sharedSystemMemory"]                := NumGet(MemoryInfo, 16, "UInt")   ; [OUT] shared system memory that driver is allowed to commit for surfaces across all allocations (in kb)
+			MEMORY_INFO["curAvailableDedicatedVideoMemory"]  := NumGet(MemoryInfo, 20, "UInt")   ; [OUT] current available physical framebuffer for allocating video memory surfaces (in kb)
+			MEMORY_INFO["dedicatedVideoMemoryEvictionsSize"] := NumGet(MemoryInfo, 24, "UInt")   ; [OUT] total size of memory released as a result of the evictions (in kb)
+			MEMORY_INFO["dedicatedVideoMemoryEvictionCount"] := NumGet(MemoryInfo, 28, "UInt")   ; [OUT] number of eviction events that caused an allocation to be removed from dedicated video memory to free GPU video memory to make room for other allocations.
 			return MEMORY_INFO
 		}
 
@@ -433,40 +437,39 @@ class GPU extends NvAPI
 
 
 
-; ===== NvAPI SYS FUNCTIONS ==================================================================================================================================================
+; ===== NvAPI SYS FUNCTIONS =================================================================================================================================================
 
 class SYS extends NvAPI
 {
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: SYS.GetChipSetInfo
 	; //
 	; // This function returns information about the system's chipset.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static GetChipSetInfo()
 	{
 		static NV_CHIPSET_INFO := (10 * 4) + (3 * Const.NVAPI_SHORT_STRING_MAX)
 
 		ChipSetInfo := Buffer(NV_CHIPSET_INFO, 0)
-		NumPut("UInt", NV_CHIPSET_INFO | 0x40000, ChipSetInfo, 0)
+		NumPut("UInt", NV_CHIPSET_INFO | 0x40000, ChipSetInfo, 0)                                                    ; [IN] version info
 		if !(NvStatus := DllCall(this.QueryInterface(0x53DABBCA), "Ptr", ChipSetInfo, "CDecl"))
 		{
 			CHIPSET_INFO := Map()
-			CHIPSET_INFO["version"]          := NumGet(ChipSetInfo,        0, "UInt")                               ; structure version
-			CHIPSET_INFO["vendorId"]         := NumGet(ChipSetInfo,        4, "UInt")                               ; Chipset vendor identification
-			CHIPSET_INFO["deviceId"]         := NumGet(ChipSetInfo,        8, "UInt")                               ; Chipset device identification
-			CHIPSET_INFO["VendorName"]       := StrGet(ChipSetInfo.Ptr +  12, Const.NVAPI_SHORT_STRING_MAX, "CP0")  ; Chipset vendor Name
-			CHIPSET_INFO["ChipsetName"]      := StrGet(ChipSetInfo.Ptr +  76, Const.NVAPI_SHORT_STRING_MAX, "CP0")  ; Chipset device Name
-			CHIPSET_INFO["flags"]            := NumGet(ChipSetInfo,      140, "UInt")                               ; Chipset info flags - obsolete
-			CHIPSET_INFO["subSysVendorId"]   := NumGet(ChipSetInfo,      144, "UInt")                               ; Chipset subsystem vendor identification
-			CHIPSET_INFO["subSysDeviceId"]   := NumGet(ChipSetInfo,      148, "UInt")                               ; Chipset subsystem device identification
-			CHIPSET_INFO["SubSysVendorName"] := StrGet(ChipSetInfo.Ptr + 152, Const.NVAPI_SHORT_STRING_MAX, "CP0")  ; subsystem vendor Name
-			CHIPSET_INFO["HBvendorId"]       := NumGet(ChipSetInfo,      216, "UInt")                               ; Host bridge vendor identification
-			CHIPSET_INFO["HBdeviceId"]       := NumGet(ChipSetInfo,      220, "UInt")                               ; Host bridge device identification
-			CHIPSET_INFO["HBsubSysVendorId"] := NumGet(ChipSetInfo,      224, "UInt")                               ; Host bridge subsystem vendor identification
-			CHIPSET_INFO["HBsubSysDeviceId"] := NumGet(ChipSetInfo,      228, "UInt")                               ; Host bridge subsystem device identification
+			CHIPSET_INFO["vendorId"]         := NumGet(ChipSetInfo,        4, "UInt")                                ; [OUT] chipset vendor identification
+			CHIPSET_INFO["deviceId"]         := NumGet(ChipSetInfo,        8, "UInt")                                ; [OUT] chipset device identification
+			CHIPSET_INFO["VendorName"]       := StrGet(ChipSetInfo.Ptr +  12, Const.NVAPI_SHORT_STRING_MAX, "CP0")   ; [OUT] chipset vendor Name
+			CHIPSET_INFO["ChipsetName"]      := StrGet(ChipSetInfo.Ptr +  76, Const.NVAPI_SHORT_STRING_MAX, "CP0")   ; [OUT] chipset device Name
+			CHIPSET_INFO["flags"]            := NumGet(ChipSetInfo,      140, "UInt")                                ; [OUT] chipset info flags - obsolete
+			CHIPSET_INFO["subSysVendorId"]   := NumGet(ChipSetInfo,      144, "UInt")                                ; [OUT] chipset subsystem vendor identification
+			CHIPSET_INFO["subSysDeviceId"]   := NumGet(ChipSetInfo,      148, "UInt")                                ; [OUT] chipset subsystem device identification
+			CHIPSET_INFO["SubSysVendorName"] := StrGet(ChipSetInfo.Ptr + 152, Const.NVAPI_SHORT_STRING_MAX, "CP0")   ; [OUT] subsystem vendor Name
+			CHIPSET_INFO["HBvendorId"]       := NumGet(ChipSetInfo,      216, "UInt")                                ; [OUT] host bridge vendor identification
+			CHIPSET_INFO["HBdeviceId"]       := NumGet(ChipSetInfo,      220, "UInt")                                ; [OUT] host bridge device identification
+			CHIPSET_INFO["HBsubSysVendorId"] := NumGet(ChipSetInfo,      224, "UInt")                                ; [OUT] host bridge subsystem vendor identification
+			CHIPSET_INFO["HBsubSysDeviceId"] := NumGet(ChipSetInfo,      228, "UInt")                                ; [OUT] host bridge subsystem device identification
 			return CHIPSET_INFO
 		}
 
@@ -475,21 +478,21 @@ class SYS extends NvAPI
 
 
 
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
 	; // FUNCTION NAME: SYS.GetDriverAndBranchVersion
 	; //
 	; // This API returns display driver version and driver-branch string.
 	; //
-	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static GetDriverAndBranchVersion()
 	{
 		BuildBranchString := Buffer(Const.NVAPI_SHORT_STRING_MAX, 0)
 		if !(NvStatus := DllCall(this.QueryInterface(0x2926AAAD), "UInt*", &DriverVersion := 0, "Ptr", BuildBranchString, "CDecl"))
 		{
 			DriverAndBranchVersion := Map()
-			DriverAndBranchVersion["DriverVersion"]     := DriverVersion                     ; Contains the driver version.
-			DriverAndBranchVersion["BuildBranchString"] := StrGet(BuildBranchString, "CP0")  ; Contains the driver-branch string.
+			DriverAndBranchVersion["DriverVersion"]     := DriverVersion                      ; [OUT] driver version
+			DriverAndBranchVersion["BuildBranchString"] := StrGet(BuildBranchString, "CP0")   ; [OUT] driver-branch string
 			return DriverAndBranchVersion
 		}
 
@@ -500,7 +503,7 @@ class SYS extends NvAPI
 
 
 
-; ===== NvAPI CONSTANTS ======================================================================================================================================================
+; ===== NvAPI CONSTANTS =====================================================================================================================================================
 
 class Const extends NvAPI
 {
@@ -511,7 +514,7 @@ class Const extends NvAPI
 
 
 
-; ============================================================================================================================================================================
+; ===========================================================================================================================================================================
 
 class MapX extends Map {
 	CaseSense := "Off"  ; should be dafault. change my mind.
@@ -520,4 +523,4 @@ class MapX extends Map {
 
 
 
-; ============================================================================================================================================================================
+; ===========================================================================================================================================================================
