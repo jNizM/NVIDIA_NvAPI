@@ -481,6 +481,52 @@ class GPU extends NvAPI
 
 	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
+	; // FUNCTION NAME: GPU.GetAllClockFrequencies
+	; //
+	; // This function retrieves the NV_GPU_CLOCK_FREQUENCIES structure for the specified physical GPU
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetAllClockFrequencies(hPhysicalGpu := 0, ClockType := 0)
+	{
+		static NV_GPU_CLOCK_FREQUENCIES := (2 * 4) + (2 * 4 * Const.NVAPI_MAX_GPU_PUBLIC_CLOCKS)
+		static NV_GPU_PUBLIC_CLOCK_ID   := Map("GRAPHICS", 0, "MEMORY", 4, "PROCESSOR", 7, "VIDEO", 8)
+		static NV_GPU_CLOCK_FREQUENCIES_CLOCK_TYPE := Map(0, "CURRENT_FREQ", 1, "BASE_CLOCK", 2, "BOOST_CLOCK", 3, "TYPE_NUM")
+
+		if !(hPhysicalGpu)
+		{
+			hPhysicalGpu := this.EnumPhysicalGPUs()[1]
+		}
+		if !(NV_GPU_CLOCK_FREQUENCIES_CLOCK_TYPE.Has(ClockType))
+		{
+			ClockType := 0
+		}
+		ClkFreqs := Buffer(NV_GPU_CLOCK_FREQUENCIES, 0)
+		NumPut("UInt", NV_GPU_CLOCK_FREQUENCIES | 0x20000, ClkFreqs, 0)         ; [IN] structure version
+		NumPut("UInt", ClockType, ClkFreqs, 4)                                  ; [IN] one of NV_GPU_CLOCK_FREQUENCIES_CLOCK_TYPE
+		if !(NvStatus := DllCall(this.QueryInterface(0xDCB616C3), "Ptr", hPhysicalGpu, "Ptr", ClkFreqs, "CDecl"))
+		{
+			CLOCK_FREQUENCIES := Map()
+			CLOCK_FREQUENCIES["enabled"] := NumGet(ClkFreqs, 4, "UInt") & 0x1   ; [OUT] bit 0 indicates if the dynamic Pstate is enabled or not
+
+			for key, value in NV_GPU_PUBLIC_CLOCK_ID
+			{
+				Offset := 8 + (value * 8)
+				CLOCK := Map()
+				CLOCK["IsPresent"] := NumGet(ClkFreqs, Offset, "UInt") & 0x1    ; [OUT] set if this domain is present on this GPU
+				CLOCK["frequency"] := NumGet(ClkFreqs, Offset + 4, "UInt")      ; [OUT] clock frequency (kHz)
+
+				CLOCK_FREQUENCIES[key] := CLOCK
+			}
+			return CLOCK_FREQUENCIES
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
 	; // FUNCTION NAME: GPU.GetCoolerSettings
 	; //
 	; // This function retrieves the cooler information of all coolers or a specific cooler associated with the selected GPU.
@@ -580,6 +626,46 @@ class GPU extends NvAPI
 		if !(NvStatus := DllCall(this.QueryInterface(0xD2488B79), "Ptr", hPhysicalGpu, "Int*", &ThermalLevel := 0, "CDecl"))
 		{
 			return NV_EVENT_LEVEL[ThermalLevel]
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
+	; // FUNCTION NAME: GPU.GetDynamicPstatesInfoEx
+	; //
+	; // This API retrieves the NV_GPU_DYNAMIC_PSTATES_INFO_EX structure for the specified physical GPU.
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetDynamicPstatesInfoEx(hPhysicalGpu := 0)
+	{
+		static NV_GPU_DYNAMIC_PSTATES_INFO_EX  := (2 * 4) + (2 * 4 * Const.NVAPI_MAX_GPU_UTILIZATIONS)
+		static NVAPI_GPU_UTILIZATION_DOMAIN_ID := ["GPU", "FB", "VID", "BUS"]
+
+		if !(hPhysicalGpu)
+		{
+			hPhysicalGpu := this.EnumPhysicalGPUs()[1]
+		}
+		DynamicPstatesInfoEx := Buffer(NV_GPU_DYNAMIC_PSTATES_INFO_EX, 0)
+		NumPut("UInt", NV_GPU_DYNAMIC_PSTATES_INFO_EX | 0x10000, DynamicPstatesInfoEx, 0)     ; [IN] structure version
+		if !(NvStatus := DllCall(this.QueryInterface(0x60DED2ED), "Ptr", hPhysicalGpu, "Ptr", DynamicPstatesInfoEx, "CDecl"))
+		{
+			PSTATES_INFO_EX := Map()
+			PSTATES_INFO_EX["enabled"] := NumGet(DynamicPstatesInfoEx, 4, "UInt") & 0x1       ; [OUT] bit 0 indicates if the dynamic Pstate is enabled or not
+
+			for index, value in NVAPI_GPU_UTILIZATION_DOMAIN_ID
+			{
+				Offset := 8 + ((index - 1) * 8)
+				PSTATES := Map()
+				PSTATES["IsPresent"]  := NumGet(DynamicPstatesInfoEx, Offset, "UInt") & 0x1   ; [OUT] set if this utilization domain is present on this GPU
+				PSTATES["percentage"] := NumGet(DynamicPstatesInfoEx, Offset + 4, "UInt")     ; [OUT] percentage of time where the domain is considered busy in the last 1 second interval
+
+				PSTATES_INFO_EX[value] := PSTATES
+			}
+			return PSTATES_INFO_EX
 		}
 
 		return this.GetErrorMessage(NvStatus)
@@ -713,6 +799,29 @@ class GPU extends NvAPI
 		if !(NvStatus := DllCall(this.QueryInterface(0x57F7CAAC), "Ptr", hPhysicalGpu, "Int*", &RamType := 0, "CDecl"))
 		{
 			return NV_GPU_RAM_TYPE[RamType]
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
+	; // FUNCTION NAME: GPU.GetTachReading
+	; //
+	; // This API retrieves the fan speed tachometer reading for the specified physical GPU.
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetTachReading(hPhysicalGpu := 0)
+	{
+		if !(hPhysicalGpu)
+		{
+			hPhysicalGpu := this.EnumPhysicalGPUs()[1]
+		}
+		if !(NvStatus := DllCall(this.QueryInterface(0x5F608315), "Ptr", hPhysicalGpu, "UInt*", &Value := 0, "CDecl"))
+		{
+			return Value
 		}
 
 		return this.GetErrorMessage(NvStatus)
@@ -923,6 +1032,8 @@ class Const extends NvAPI
 	static NVAPI_THERMAL_TARGET_ALL          := 15
 	static NVAPI_SHORT_STRING_MAX            := 64
 	static NVAPI_MAX_COOLERS_PER_GPU         := 20
+	static NVAPI_MAX_GPU_PUBLIC_CLOCKS       := 32
+	static NVAPI_MAX_GPU_UTILIZATIONS        := 8
 	static NVAPI_MAX_LOGICAL_GPUS            := 64
 	static NVAPI_MAX_PHYSICAL_GPUS           := 64
 	static NVAPI_MAX_THERMAL_SENSORS_PER_GPU := 3
