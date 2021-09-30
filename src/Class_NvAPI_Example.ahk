@@ -66,7 +66,7 @@ Main.AddText("x+4 yp w40 h25 0x200", "%")
 
 
 Main.AddGroupBox("xs+0 y+20 w270 h61 Section", "Temperature")
-Main.AddText("xs+10 ys+25 w148 h25 0x202", "GPU Fan")
+Main.AddText("xs+10 ys+25 w148 h25 0x202", "GPU Core")
 MainEdt10 := Main.AddEdit("x+4 yp w60 0x802")
 Main.AddText("x+4 yp w40 h25 0x200", "°C")
 
