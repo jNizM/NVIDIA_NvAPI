@@ -490,11 +490,11 @@ class GPU extends NvAPI
 	static GetCoolerSettings(hPhysicalGpu := 0)
 	{
 		static NV_GPU_GETCOOLER_SETTINGS := (2 * 4) + (16 * 4 * Const.NVAPI_MAX_COOLERS_PER_GPU)
-		static NV_COOLER_TYPE       := Map(0, "NONE", 1, "FAN", 2, "WATER", 3, "LIQUID_NO2")
-		static NV_COOLER_CONTROLLER := Map(0, "NONE", 1, "ADI", 2, "INTERNAL")
-		static NV_COOLER_POLICY     := Map(0, "NONE", 1, "MANUAL", 2, "PERF", 4, "DISCRETE", 8, "CONTINUOUS", 16, "CONTINUOUS_SW", 32, "DEFAULT")
-		static NV_COOLER_TARGET     := Map(0, "NONE", 1, "GPU", 2, "MEMORY", 4, "POWER_SUPPLY", 7, "ALL", 8, "COOLER1", 9, "COOLER2", 10, "COOLER3")
-		static NV_COOLER_CONTROL    := Map(0, "NONE", 1, "TOGGLE", 2, "VARIABLE")
+		static NV_COOLER_TYPE            := Map(0, "NONE", 1, "FAN", 2, "WATER", 3, "LIQUID_NO2")
+		static NV_COOLER_CONTROLLER      := Map(0, "NONE", 1, "ADI", 2, "INTERNAL")
+		static NV_COOLER_POLICY          := Map(0, "NONE", 1, "MANUAL", 2, "PERF", 4, "DISCRETE", 8, "CONTINUOUS", 16, "CONTINUOUS_SW", 32, "DEFAULT")
+		static NV_COOLER_TARGET          := Map(0, "NONE", 1, "GPU", 2, "MEMORY", 4, "POWER_SUPPLY", 7, "ALL", 8, "COOLER1", 9, "COOLER2", 10, "COOLER3")
+		static NV_COOLER_CONTROL         := Map(0, "NONE", 1, "TOGGLE", 2, "VARIABLE")
 
 		if !(hPhysicalGpu)
 		{
@@ -722,6 +722,51 @@ class GPU extends NvAPI
 
 	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	; //
+	; // FUNCTION NAME: GPU.GetThermalSettings
+	; //
+	; // This function retrieves the thermal information of all thermal sensors or specific thermal sensor associated with the selected GPU.
+	; // Thermal sensors are indexed 0 to NVAPI_MAX_THERMAL_SENSORS_PER_GPU-1.
+	; //
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static GetThermalSettings(hPhysicalGpu := 0)
+	{
+		static NV_GPU_THERMAL_SETTINGS := (2 * 4) + (5 * 4 * Const.NVAPI_MAX_THERMAL_SENSORS_PER_GPU)
+		static NV_THERMAL_CONTROLLER := Map(-1, "UNKNOWN", 0, "NONE", 1, "GPU_INTERNAL", 2, "ADM1032", 3, "MAX6649", 4, "MAX1617", 5, "LM99", 6, "LM89", 7, "LM64"
+		                                   , 8, "ADT7473", 9, "SBMAX6649", 10, "VBIOSEVT", 11, "OS")
+		static NV_THERMAL_TARGET     := Map(-1, "UNKNOWN", 0, "NONE", 1, "GPU", 2, "MEMORY", 4, "POWER_SUPPLY", 8, "BOARD", 9, "VCD_BOARD", 10, "VCD_INLET", 11, "VCD_OUTLET", 15, "ALL")
+
+		if !(hPhysicalGpu)
+		{
+			hPhysicalGpu := this.EnumPhysicalGPUs()[1]
+		}
+		ThermalSettings := Buffer(NV_GPU_THERMAL_SETTINGS, 0)
+		NumPut("UInt", NV_GPU_THERMAL_SETTINGS | 0x20000, ThermalSettings, 0)                                  ; [IN] structure version
+		if !(NvStatus := DllCall(this.QueryInterface(0xE3640A56), "Ptr", hPhysicalGpu, "UInt", Const.NVAPI_THERMAL_TARGET_ALL, "Ptr", ThermalSettings, "CDecl"))
+		{
+			THERMAL_SETTINGS := Map()
+			THERMAL_SETTINGS["count"] := NumGet(ThermalSettings, 4, "UInt")                                    ; [OUT] number of associated thermal sensors
+			loop THERMAL_SETTINGS["count"]
+			{
+				Offset := 8 + ((A_Index - 1) * 20)
+				THERMAL := Map()
+				THERMAL["controller"]     := NV_THERMAL_CONTROLLER[NumGet(ThermalSettings, Offset, "UInt")]    ; [OUT] internal, ADM1032, MAX6649...
+				THERMAL["defaultMinTemp"] := NumGet(ThermalSettings, Offset + 4, "Int")                        ; [OUT] min default temperature value of the thermal sensor in degree Celsius
+				THERMAL["defaultMaxTemp"] := NumGet(ThermalSettings, Offset + 8, "Int")                        ; [OUT] max default temperature value of the thermal sensor in degree Celsius
+				THERMAL["currentTemp"]    := NumGet(ThermalSettings, Offset + 12, "Int")                       ; [OUT] current temperature value of the thermal sensor in degree Celsius
+				THERMAL["target"]         := NV_THERMAL_TARGET[NumGet(ThermalSettings, Offset + 16, "UInt")]   ; [OUT] thermal sensor targeted @ GPU, memory, chipset, powersupply, Visual Computing Device, etc.
+
+				THERMAL_SETTINGS[A_Index] := THERMAL
+			}
+			return THERMAL_SETTINGS
+		}
+
+		return this.GetErrorMessage(NvStatus)
+	}
+
+
+
+	; ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	; //
 	; // FUNCTION NAME: GPU.GetUsages
 	; //
 	; // This function retrieves the usage associated with this GPU.
@@ -736,7 +781,7 @@ class GPU extends NvAPI
 			hPhysicalGpu := this.EnumPhysicalGPUs()[1]
 		}
 		UsagesInfo := Buffer(NV_USAGES_INFO, 0)
-		NumPut("UInt", NV_USAGES_INFO | 0x10000, UsagesInfo, 0)   ; [IN] version info
+		NumPut("UInt", NV_USAGES_INFO | 0x10000, UsagesInfo, 0)    ; [IN] version info
 		if !(NvStatus := DllCall(this.QueryInterface(0x189A1FDF), "Ptr", hPhysicalGpu, "Ptr", UsagesInfo, "CDecl"))
 		{
 			return NumGet(UsagesInfo, 12, "UInt")                  ; [OUT] GPU usage
@@ -874,12 +919,14 @@ class SYS extends NvAPI
 
 class Const extends NvAPI
 {
-	static NVAPI_COOLER_TARGET_ALL       := 7
-	static NVAPI_SHORT_STRING_MAX        := 64
-	static NVAPI_MAX_COOLERS_PER_GPU     := 20
-	static NVAPI_MAX_LOGICAL_GPUS        := 64
-	static NVAPI_MAX_PHYSICAL_GPUS       := 64
-	static NVAPI_MAX_USAGES_PER_GPU      := 33
+	static NVAPI_COOLER_TARGET_ALL           := 7
+	static NVAPI_THERMAL_TARGET_ALL          := 15
+	static NVAPI_SHORT_STRING_MAX            := 64
+	static NVAPI_MAX_COOLERS_PER_GPU         := 20
+	static NVAPI_MAX_LOGICAL_GPUS            := 64
+	static NVAPI_MAX_PHYSICAL_GPUS           := 64
+	static NVAPI_MAX_THERMAL_SENSORS_PER_GPU := 3
+	static NVAPI_MAX_USAGES_PER_GPU          := 33
 }
 
 
