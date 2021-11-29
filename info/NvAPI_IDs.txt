@@ -2,8 +2,8 @@
 //
 // NVAPI ID'S
 //
-// Release 470
-// Date: Jun 29, 2021
+// Release 495
+// Date: Oct 26, 2021
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -162,6 +162,7 @@ _NvAPI_D3D_SetSleepMode                                     0xAC1CA9E0
 _NvAPI_D3D_Sleep                                            0x852CD1D2
 _NvAPI_DestroyPresentBarrierClient                          0x3C5C351B
 _NvAPI_DisableHWCursor                                      0xAB163097
+_NvAPI_DISP_AcquireDedicatedDisplay                         0x47C917BA
 _NvAPI_Disp_ColorControl                                    0x92F9D80D
 _NvAPI_DISP_DeleteCustomDisplay                             0x552E5B9B
 _NvAPI_DISP_EnumCustomDisplay                               0xA2072D59
@@ -173,10 +174,12 @@ _NvAPI_DISP_GetGDIPrimaryDisplayId                          0x1E9D8A31
 _NvAPI_Disp_GetHdrCapabilities                              0x84F2A8DF
 _NvAPI_DISP_GetMonitorCapabilities                          0x3B05C7E1
 _NvAPI_DISP_GetMonitorColorCapabilities                     0x6AE4CFB5
+_NvAPI_DISP_GetNvManagedDedicatedDisplays                   0xDBDF0CB2
 _NvAPI_DISP_GetPreferredStereoDisplay                       0x1F6B4666
 _NvAPI_DISP_GetTiming                                       0x175167E9
 _NvAPI_Disp_HdrColorControl                                 0x351DA224
 _NvAPI_Disp_InfoFrameControl                                0x6067AF3F
+_NvAPI_DISP_ReleaseDedicatedDisplay                         0x1247825F
 _NvAPI_DISP_RevertCustomDisplayTrial                        0xCBBD40F0
 _NvAPI_DISP_SaveCustomDisplay                               0x49882876
 _NvAPI_DISP_SetAdaptiveSyncData                             0x3EEBBA1D
