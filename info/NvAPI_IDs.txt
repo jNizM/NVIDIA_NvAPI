@@ -2,8 +2,8 @@
 //
 // NVAPI ID'S
 //
-// Release 495
-// Date: Oct 26, 2021
+// Release 510
+// Date: Jan 10, 2022
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -73,6 +73,7 @@ _NvAPI_D3D12_CreateComputePipelineState                     0x2762DEAC
 _NvAPI_D3D12_CreateCubinComputeShader                       0x2A2C79E8
 _NvAPI_D3D12_CreateCubinComputeShaderEx                     0x3151211B
 _NvAPI_D3D12_CreateCubinComputeShaderWithName               0x1DC7261F
+_NvAPI_D3D12_CreateDDisplayPresentBarrierClient             0xB5A21987
 _NvAPI_D3D12_CreateGraphicsPipelineState                    0x2FC28856
 _NvAPI_D3D12_CreateHeap                                     0x5CB397CF
 _NvAPI_D3D12_CreateHeap2                                    0x924BE9D6
@@ -86,6 +87,7 @@ _NvAPI_D3D12_GetCopyableFootprints                          0xF6305EB5
 _NvAPI_D3D12_GetCudaSurfaceObject                           0x48F5B2EE
 _NvAPI_D3D12_GetCudaTextureObject                           0x80403FC9
 _NvAPI_D3D12_GetGraphicsCapabilities                        0x01E87354
+_NvAPI_D3D12_GetOptimalThreadCountForMesh                   0xB43995CB
 _NvAPI_D3D12_InitializeMetaCommand                          0xA4125399
 _NvAPI_D3D12_IsFatbinPTXSupported                           0x70C07832
 _NvAPI_D3D12_IsNvShaderExtnOpCodeSupported                  0x3DFACEC8
@@ -177,6 +179,7 @@ _NvAPI_DISP_GetMonitorColorCapabilities                     0x6AE4CFB5
 _NvAPI_DISP_GetNvManagedDedicatedDisplays                   0xDBDF0CB2
 _NvAPI_DISP_GetPreferredStereoDisplay                       0x1F6B4666
 _NvAPI_DISP_GetTiming                                       0x175167E9
+_NvAPI_DISP_GetVirtualRefreshRateData                       0x8C00429A
 _NvAPI_Disp_HdrColorControl                                 0x351DA224
 _NvAPI_Disp_InfoFrameControl                                0x6067AF3F
 _NvAPI_DISP_ReleaseDedicatedDisplay                         0x1247825F
@@ -185,6 +188,7 @@ _NvAPI_DISP_SaveCustomDisplay                               0x49882876
 _NvAPI_DISP_SetAdaptiveSyncData                             0x3EEBBA1D
 _NvAPI_DISP_SetDisplayConfig                                0x5D8CF8DE
 _NvAPI_DISP_SetPreferredStereoDisplay                       0xC9D0E25F
+_NvAPI_DISP_SetVirtualRefreshRateData                       0x5ABBE6A3
 _NvAPI_DISP_TryCustomDisplay                                0x1F7DB630
 _NvAPI_DRS_CreateApplication                                0x4347A9DE
 _NvAPI_DRS_CreateProfile                                    0xCC176068
@@ -235,11 +239,13 @@ _NvAPI_GetCurrentMosaicTopology                             0xF60852BD
 _NvAPI_GetDisplayDriverVersion                              0xF951A4D1
 _NvAPI_GetDisplayPortInfo                                   0xC64FF367
 _NvAPI_GetErrorMessage                                      0x6C2D048C
+_NvAPI_GetGPUIDfromPhysicalGPU                              0x6533EA3E
 _NvAPI_GetHDMISupportInfo                                   0x6AE16EC3
 _NvAPI_GetInterfaceVersionString                            0x01053FA5
 _NvAPI_GetInterfaceVersionStringEx                          ??????????
 _NvAPI_GetLogicalGPUFromDisplay                             0xEE1370CF
 _NvAPI_GetLogicalGPUFromPhysicalGPU                         0xADD604D1
+_NvAPI_GetPhysicalGPUFromGPUID                              0x5380AD1A
 _NvAPI_GetPhysicalGPUFromUnAttachedDisplay                  0x5018ED61
 _NvAPI_GetPhysicalGPUsFromDisplay                           0x34EF9506
 _NvAPI_GetPhysicalGPUsFromLogicalGPU                        0xAEA3FA32
@@ -256,6 +262,7 @@ _NvAPI_GPU_ClientIllumZonesGetControl                       0x3DBF5764
 _NvAPI_GPU_ClientIllumZonesGetInfo                          0x4B81241B
 _NvAPI_GPU_ClientIllumZonesSetControl                       0x197D065E
 _NvAPI_GPU_ClientRegisterForUtilizationSampleUpdates        0xADEEAF67
+_NvAPI_GPU_CudaEnumComputeCapableGpus                       0x5786CC6E
 _NvAPI_GPU_GetActiveOutputs                                 0xE3E89B6F
 _NvAPI_GPU_GetAdapterIdFromPhysicalGpu                      0x0FF07FDE
 _NvAPI_GPU_GetAGPAperture                                   0x6E042794
