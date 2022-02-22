@@ -33,6 +33,9 @@
 ### Set Digital Vibrance (DVC) per Display
 ![Class_NvAPI_GUI_SetDVC](Class_NvAPI_GUI_SetDVC.png)
 
+### Nvidia Hue Control
+![NVIDIA_Hue_Control](img/NVIDIA_Hue_Control.png)
+
 
 ## Contributing
 * special thanks to 'just me', 'nnnik' and 'RUNIE'
