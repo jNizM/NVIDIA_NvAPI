@@ -30,8 +30,8 @@
 ### Classic GUI (Clocks, Load, Fans & Temperature)
 ![Class_NvAPI_GUI_Classic](Class_NvAPI_GUI_Classic.png)
 
-### Set Digital Vibrance (DVC) per Display
-![Class_NvAPI_GUI_SetDVC](Class_NvAPI_GUI_SetDVC.png)
+### Digital Vibrance Control (DVC)
+![DigitalVibrance](img/DigitalVibrance.png)
 
 ### Nvidia Hue Control
 ![NVIDIA_Hue_Control](img/NVIDIA_Hue_Control.png)
