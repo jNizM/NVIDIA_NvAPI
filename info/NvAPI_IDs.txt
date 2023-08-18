@@ -2,8 +2,8 @@
 //
 // NVAPI ID'S
 //
-// Release 525
-// Date: Nov 15, 2022
+// Release 530
+// Date: Apr 10, 2023
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -71,6 +71,7 @@ NvAPI_D3D12_CheckDriverMatchingIdentifierEx                0xAFB237D4
 NvAPI_D3D12_CopyTextureRegion                              0x82B91B25
 NvAPI_D3D12_CopyTileMappings                               0x47F78194
 NvAPI_D3D12_CreateCommittedImplicitMSAATexture2D           0x24C6A07B
+NvAPI_D3D12_CreateCommittedRDMABuffer                      0xE78DCB44
 NvAPI_D3D12_CreateCommittedResource                        0x027E98AE
 NvAPI_D3D12_CreateComputePipelineState                     0x2762DEAC
 NvAPI_D3D12_CreateCuFunction                               0xE2436E22
@@ -112,6 +113,7 @@ NvAPI_D3D12_QueryCpuVisibleVidmem                          0x26322BC3
 NvAPI_D3D12_QueryModifiedWSupport                          0x51235248
 NvAPI_D3D12_QueryPresentBarrierSupport                     0xA15FAEF7
 NvAPI_D3D12_QuerySinglePassStereoSupport                   0x3B03791B
+NvAPI_D3D12_QueryWorkstationFeatureProperties              0xA92EA23A
 NvAPI_D3D12_RegisterPresentBarrierResources                0xD53C9EF0
 NvAPI_D3D12_RelocateRaytracingOpacityMicromapArray         0x0425C538
 NvAPI_D3D12_ReservedResourceGetDesc                        0x9AA2AABB
@@ -175,14 +177,21 @@ NvAPI_D3D_SetFPSIndicatorState                             0xA776E8DB
 NvAPI_D3D_SetLatencyMarker                                 0xD9984C05
 NvAPI_D3D_SetModifiedWMode                                 0x06EA4BF4
 NvAPI_D3D_SetMultiViewMode                                 0x8285C8DA
+NvAPI_D3D_SetReflexSync                                    0xB9F6FAFF
 NvAPI_D3D_SetResourceHint                                  0x6C0ED98C
 NvAPI_D3D_SetSinglePassStereoMode                          0xA39E6E6E
 NvAPI_D3D_SetSleepMode                                     0xAC1CA9E0
+NvAPI_D3D_SetVerticalSyncMode                              0x5526CFD1
 NvAPI_D3D_Sleep                                            0x852CD1D2
 NvAPI_DestroyPresentBarrierClient                          0x3C5C351B
+NvAPI_DirectD3D12GraphicsCommandList_Create                0x74A4E712
+NvAPI_DirectD3D12GraphicsCommandList_Release               0x99DA3DDE
+NvAPI_DirectD3D12GraphicsCommandList_Reset                 0x999C26D8
 NvAPI_DisableHWCursor                                      0xAB163097
 NvAPI_DISP_AcquireDedicatedDisplay                         0x47C917BA
 NvAPI_Disp_ColorControl                                    0x92F9D80D
+NvAPI_Disp_GetDisplayIdInfo                                0xBAE8AA5E
+NvAPI_Disp_GetDisplayIdsFromTarget                         0xE7E5F89E
 NvAPI_DISP_DeleteCustomDisplay                             0x552E5B9B
 NvAPI_DISP_EnumCustomDisplay                               0xA2072D59
 NvAPI_DISP_GetAdaptiveSyncData                             0xB73D1EE9
@@ -195,6 +204,7 @@ NvAPI_Disp_GetHdrToneMapping                               0xFBD36E71
 NvAPI_Disp_GetOutputMode                                   0x81FED88D
 NvAPI_Disp_GetSourceColorSpace                             0xCEEDC85B
 NvAPI_Disp_GetSourceHdrMetadata                            0x0D3F52DA
+NvAPI_Disp_GetVRRInfo                                      0xDF8FDA57
 NvAPI_DISP_GetMonitorCapabilities                          0x3B05C7E1
 NvAPI_DISP_GetMonitorColorCapabilities                     0x6AE4CFB5
 NvAPI_DISP_GetNvManagedDedicatedDisplays                   0xDBDF0CB2
