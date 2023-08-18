@@ -2,8 +2,8 @@
 //
 // NVAPI ID'S
 //
-// Release 520
-// Date: Okt 20, 2022
+// Release 525
+// Date: Nov 15, 2022
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -191,6 +191,10 @@ NvAPI_DISP_GetDisplayConfig                                0x11ABCCF8
 NvAPI_DISP_GetDisplayIdByDisplayName                       0xAE457190
 NvAPI_DISP_GetGDIPrimaryDisplayId                          0x1E9D8A31
 NvAPI_Disp_GetHdrCapabilities                              0x84F2A8DF
+NvAPI_Disp_GetHdrToneMapping                               0xFBD36E71
+NvAPI_Disp_GetOutputMode                                   0x81FED88D
+NvAPI_Disp_GetSourceColorSpace                             0xCEEDC85B
+NvAPI_Disp_GetSourceHdrMetadata                            0x0D3F52DA
 NvAPI_DISP_GetMonitorCapabilities                          0x3B05C7E1
 NvAPI_DISP_GetMonitorColorCapabilities                     0x6AE4CFB5
 NvAPI_DISP_GetNvManagedDedicatedDisplays                   0xDBDF0CB2
@@ -199,6 +203,10 @@ NvAPI_DISP_GetTiming                                       0x175167E9
 NvAPI_DISP_GetVirtualRefreshRateData                       0x8C00429A
 NvAPI_Disp_HdrColorControl                                 0x351DA224
 NvAPI_Disp_InfoFrameControl                                0x6067AF3F
+NvAPI_Disp_SetHdrToneMapping                               0xDD6DA362
+NvAPI_Disp_SetOutputMode                                   0x98E7661A
+NvAPI_Disp_SetSourceColorSpace                             0x473B6CAF
+NvAPI_Disp_SetSourceHdrMetadata                            0x905EB63B
 NvAPI_DISP_ReleaseDedicatedDisplay                         0x1247825F
 NvAPI_DISP_RevertCustomDisplayTrial                        0xCBBD40F0
 NvAPI_DISP_SaveCustomDisplay                               0x49882876
@@ -321,6 +329,7 @@ NvAPI_GPU_GetPhysicalFrameBufferSize                       0x46FBEB03
 NvAPI_GPU_GetPstates20                                     0x6FF81213
 NvAPI_GPU_GetPstatesInfoEx                                 0x843C0256
 NvAPI_GPU_GetQuadroStatus                                  0xE332FA47
+NvAPI_GPU_GetRamBusWidth                                   0x7975C581
 NvAPI_GPU_GetScanoutCompositionParameter                   0x58FE51E6
 NvAPI_GPU_GetScanoutConfiguration                          0x6A9F5B63
 NvAPI_GPU_GetScanoutConfigurationEx                        0xE2E1E6F0
