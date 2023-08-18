@@ -2,8 +2,8 @@
 //
 // NVAPI ID'S
 //
-// Release 510
-// Date: Jan 10, 2022
+// Release 520
+// Date: Okt 20, 2022
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -64,12 +64,17 @@ NvAPI_D3D11_SetNvShaderExtnSlotLocalThread                 0x0E6482A0
 NvAPI_D3D11_TiledResourceBarrier                           0xD6839099
 NvAPI_D3D11_TiledTexture2DArrayGetDesc                     0xF1A2B9D5
 NvAPI_D3D11_UpdateTileMappings                             0x9A06EA07
+NvAPI_D3D12_BuildRaytracingAccelerationStructureEx         0xE24EAD45
+NvAPI_D3D12_BuildRaytracingOpacityMicromapArray            0x814F8D11
 NvAPI_D3D12_CaptureUAVInfo                                 0x6E5EA9DB
+NvAPI_D3D12_CheckDriverMatchingIdentifierEx                0xAFB237D4
 NvAPI_D3D12_CopyTextureRegion                              0x82B91B25
 NvAPI_D3D12_CopyTileMappings                               0x47F78194
 NvAPI_D3D12_CreateCommittedImplicitMSAATexture2D           0x24C6A07B
 NvAPI_D3D12_CreateCommittedResource                        0x027E98AE
 NvAPI_D3D12_CreateComputePipelineState                     0x2762DEAC
+NvAPI_D3D12_CreateCuFunction                               0xE2436E22
+NvAPI_D3D12_CreateCuModule                                 0xAD1A677D
 NvAPI_D3D12_CreateCubinComputeShader                       0x2A2C79E8
 NvAPI_D3D12_CreateCubinComputeShaderEx                     0x3151211B
 NvAPI_D3D12_CreateCubinComputeShaderWithName               0x1DC7261F
@@ -80,7 +85,11 @@ NvAPI_D3D12_CreateHeap2                                    0x924BE9D6
 NvAPI_D3D12_CreateMetaCommand                              0xEB29634B
 NvAPI_D3D12_CreatePresentBarrierClient                     0x4D815DE9
 NvAPI_D3D12_CreateReservedResource                         0x2C85F101
+NvAPI_D3D12_DestroyCuFunction                              0xDF295EA6
+NvAPI_D3D12_DestroyCuModule                                0x41C65285
 NvAPI_D3D12_DestroyCubinComputeShader                      0x7FB785BA
+NvAPI_D3D12_EmitRaytracingOpacityMicromapArrayPostbuildInfo0x1D9A39B6
+NvAPI_D3D12_EnumFunctionsInModule                          0x7AB88D88
 NvAPI_D3D12_EnumerateMetaCommands                          0xCD9141D8
 NvAPI_D3D12_ExecuteMetaCommand                             0xDE24FC3D
 NvAPI_D3D12_GetCopyableFootprints                          0xF6305EB5
@@ -88,20 +97,28 @@ NvAPI_D3D12_GetCudaSurfaceObject                           0x48F5B2EE
 NvAPI_D3D12_GetCudaTextureObject                           0x80403FC9
 NvAPI_D3D12_GetGraphicsCapabilities                        0x01E87354
 NvAPI_D3D12_GetOptimalThreadCountForMesh                   0xB43995CB
+NvAPI_D3D12_GetRaytracingAccelerationStructurePrebuildInfoE0x8D025B77
+NvAPI_D3D12_GetRaytracingCaps                              0x85A6C2A0
+NvAPI_D3D12_GetRaytracingOpacityMicromapArrayPrebuildInfo  0x4726D180
 NvAPI_D3D12_InitializeMetaCommand                          0xA4125399
 NvAPI_D3D12_IsFatbinPTXSupported                           0x70C07832
 NvAPI_D3D12_IsNvShaderExtnOpCodeSupported                  0x3DFACEC8
+NvAPI_D3D12_LaunchCuKernelChain                            0x24973538
 NvAPI_D3D12_LaunchCubinShader                              0x5C52BB86
 NvAPI_D3D12_Mosaic_GetCompanionAllocations                 0xA46022C7
 NvAPI_D3D12_Mosaic_GetViewportAndGpuPartitions             0xB092B818
+NvAPI_D3D12_NotifyOutOfBandCommandQueue                    0x03D6E8CB
 NvAPI_D3D12_QueryCpuVisibleVidmem                          0x26322BC3
 NvAPI_D3D12_QueryModifiedWSupport                          0x51235248
 NvAPI_D3D12_QueryPresentBarrierSupport                     0xA15FAEF7
 NvAPI_D3D12_QuerySinglePassStereoSupport                   0x3B03791B
 NvAPI_D3D12_RegisterPresentBarrierResources                0xD53C9EF0
+NvAPI_D3D12_RelocateRaytracingOpacityMicromapArray         0x0425C538
 NvAPI_D3D12_ReservedResourceGetDesc                        0x9AA2AABB
 NvAPI_D3D12_ResolveSubresourceRegion                       0xC24A15BF
 NvAPI_D3D12_ResourceAliasingBarrier                        0xB942BAB7
+NvAPI_D3D12_SetAsyncFrameMarker                            0x13C98F73
+NvAPI_D3D12_SetCreatePipelineStateOptions                  0x5C607A27
 NvAPI_D3D12_SetDepthBoundsTestValues                       0xB9333FE9
 NvAPI_D3D12_SetModifiedWMode                               0xE1FDABA7
 NvAPI_D3D12_SetNvShaderExtnSlotSpace                       0xAC2DFEB5
@@ -296,6 +313,7 @@ NvAPI_GPU_GetIRQ                                           0xE4715417
 NvAPI_GPU_GetLicensableFeatures                            0x3FC596AA
 NvAPI_GPU_GetLogicalGpuInfo                                0x842B066E
 NvAPI_GPU_GetMemoryInfo                                    0x07F9B368
+NvAPI_GPU_GetMemoryInfoEx                                  0xC0599498
 NvAPI_GPU_GetOutputType                                    0x40A505E4
 NvAPI_GPU_GetPCIIdentifiers                                0x2DDFB66E
 NvAPI_GPU_GetPerfDecreaseInfo                              0x7F7F4600
