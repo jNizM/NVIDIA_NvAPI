@@ -2,8 +2,8 @@
 //
 // NVAPI ID'S
 //
-// Release 530
-// Date: Apr 10, 2023
+// Release 535
+// Date: Jun 22, 2023
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -65,6 +65,7 @@ NvAPI_D3D11_TiledResourceBarrier                           0xD6839099
 NvAPI_D3D11_TiledTexture2DArrayGetDesc                     0xF1A2B9D5
 NvAPI_D3D11_UpdateTileMappings                             0x9A06EA07
 NvAPI_D3D12_BuildRaytracingAccelerationStructureEx         0xE24EAD45
+NvAPI_D3D12_BuildRaytracingDisplacementMicromapArray       0x066F569D
 NvAPI_D3D12_BuildRaytracingOpacityMicromapArray            0x814F8D11
 NvAPI_D3D12_CaptureUAVInfo                                 0x6E5EA9DB
 NvAPI_D3D12_CheckDriverMatchingIdentifierEx                0xAFB237D4
@@ -89,6 +90,7 @@ NvAPI_D3D12_CreateReservedResource                         0x2C85F101
 NvAPI_D3D12_DestroyCuFunction                              0xDF295EA6
 NvAPI_D3D12_DestroyCuModule                                0x41C65285
 NvAPI_D3D12_DestroyCubinComputeShader                      0x7FB785BA
+NvAPI_D3D12_EmitRaytracingDisplacementMicromapArrayPostbuil0x68B9A790
 NvAPI_D3D12_EmitRaytracingOpacityMicromapArrayPostbuildInfo0x1D9A39B6
 NvAPI_D3D12_EnumFunctionsInModule                          0x7AB88D88
 NvAPI_D3D12_EnumerateMetaCommands                          0xCD9141D8
@@ -97,14 +99,17 @@ NvAPI_D3D12_GetCopyableFootprints                          0xF6305EB5
 NvAPI_D3D12_GetCudaSurfaceObject                           0x48F5B2EE
 NvAPI_D3D12_GetCudaTextureObject                           0x80403FC9
 NvAPI_D3D12_GetGraphicsCapabilities                        0x01E87354
+NvAPI_D3D12_GetNeedsAppFPBlendClamping                     0x6EF4D2D1
 NvAPI_D3D12_GetOptimalThreadCountForMesh                   0xB43995CB
 NvAPI_D3D12_GetRaytracingAccelerationStructurePrebuildInfoE0x8D025B77
 NvAPI_D3D12_GetRaytracingCaps                              0x85A6C2A0
+NvAPI_D3D12_GetRaytracingDisplacementMicromapArrayPrebuildI0xFA99B6DE
 NvAPI_D3D12_GetRaytracingOpacityMicromapArrayPrebuildInfo  0x4726D180
 NvAPI_D3D12_InitializeMetaCommand                          0xA4125399
 NvAPI_D3D12_IsFatbinPTXSupported                           0x70C07832
 NvAPI_D3D12_IsNvShaderExtnOpCodeSupported                  0x3DFACEC8
 NvAPI_D3D12_LaunchCuKernelChain                            0x24973538
+NvAPI_D3D12_LaunchCuKernelChainEx                          0x846A9BF0
 NvAPI_D3D12_LaunchCubinShader                              0x5C52BB86
 NvAPI_D3D12_Mosaic_GetCompanionAllocations                 0xA46022C7
 NvAPI_D3D12_Mosaic_GetViewportAndGpuPartitions             0xB092B818
@@ -115,6 +120,7 @@ NvAPI_D3D12_QueryPresentBarrierSupport                     0xA15FAEF7
 NvAPI_D3D12_QuerySinglePassStereoSupport                   0x3B03791B
 NvAPI_D3D12_QueryWorkstationFeatureProperties              0xA92EA23A
 NvAPI_D3D12_RegisterPresentBarrierResources                0xD53C9EF0
+NvAPI_D3D12_RelocateRaytracingDisplacementMicromapArray    0x1C142308
 NvAPI_D3D12_RelocateRaytracingOpacityMicromapArray         0x0425C538
 NvAPI_D3D12_ReservedResourceGetDesc                        0x9AA2AABB
 NvAPI_D3D12_ResolveSubresourceRegion                       0xC24A15BF
